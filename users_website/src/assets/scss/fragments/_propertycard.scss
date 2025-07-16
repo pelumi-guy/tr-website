@@ -1,0 +1,21 @@
+.card-image-container {
+    position: relative;
+    /* Essential for the <Image> fill prop */
+    width: 100%;
+    /* --- The Magic: Choose ONE of the following aspect ratio methods --- */
+    /* Method A: Modern and Recommended */
+    /*aspect-ratio: 16 / 9; */
+    /* For a widescreen crop */
+    /* aspect-ratio: 4 / 3; */
+    /* For a more standard photo crop */
+    aspect-ratio: 1 / 1;
+    /* For a perfect square crop */
+    /* Method B: The "Padding-Top Hack" (Older, but great for legacy browser support) */
+    /* height: 0; */
+    /* padding-top: 56.25%; */
+    /* This percentage creates a 16:9 ratio (9 / 16 = 0.5625) */
+    /* padding-top: 75%; */
+    /* For a 4:3 ratio (3 / 4 = 0.75) */
+    /* padding-top: 100%; */
+    /* For a 1:1 ratio */
+}

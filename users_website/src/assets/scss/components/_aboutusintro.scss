@@ -1,0 +1,77 @@
+.about-us-intro-section {
+    // background-color: $white;
+    // py-5 from Bootstrap gives approx 48px padding. Adjust if 64px is strict.
+    // padding-top: 64px;
+    // padding-bottom: 64px;
+    .about-us-intro-question {
+        color: $textBlack; // Or a slightly lighter shade like $muted if desired.
+        line-height: 58px;
+        // font-size: $h3-font-size; // Use your heading variables
+        // line-height: 1.4;
+    }
+    .aboutus-main-heading {
+        color: $textBlack;
+        line-height: 86px;
+        // font-size: $h1-font-size or $display-4 equivalent from your variables;
+    }
+    .about-paragraph {
+        color: $muted; // Or $textBlack if primary content color
+        font-size: 1rem; // Base paragraph size
+        line-height: 1.4;
+        text-align: justify;
+        &.lead {
+            font-size: $lead-font-size; // Bootstrap variable
+            font-weight: $lead-font-weight; // Bootstrap variable
+        }
+    }
+    .video-wrapper {
+        margin-top: 24px; // Gap from Figma
+        border-radius: $border-radius-lg; // Rounded corners for the video container
+        overflow: hidden; // Ensures the video corners are also rounded
+        line-height: 0; // Prevents extra space below video element if it's display: inline-block by default
+        video {
+            display: block; // Ensures it takes full width and no extra space
+            width: 100%;
+            height: auto; // Maintain aspect ratio
+            // If you need a fixed height for the video area to match the Figma "Hug (538px)"
+            // and the text part takes up, say, 200px, then video height might be ~300px.
+            // max-height: 300px; // Example fixed height
+            // object-fit: cover; // If using fixed height and want to cover without distortion
+            border-radius: inherit; // Inherit border-radius from wrapper
+        }
+    }
+}
+
+// Responsive adjustments
+@include media-breakpoint-down(md) {
+    .about-us-intro-section {
+        .main-heading {
+            font-size: $mobile-h1; // Use your mobile heading sizes
+        }
+        .intro-question {
+            font-size: $mobile-h3;
+            text-align: center; // Center question on smaller screens before stacking
+            margin-bottom: $spacer * 1.5 !important; // Override Bootstrap's mb-md-0
+        }
+        .col-lg-4.col-md-5,
+        .col-lg-8.col-md-7 {
+            // Ensure stacking
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        .about-paragraph {
+            font-size: $mobile-p;
+            &.lead {
+                font-size: $mobile-p * 1.15; // Slightly larger for mobile lead
+            }
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .intro-question {
+        text-align: left !important;
+        padding: 0px;
+        max-width: 60%;
+    }
+}

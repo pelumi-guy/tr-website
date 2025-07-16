@@ -1,0 +1,18 @@
+.sidebar-divider {
+    color: white;
+}
+
+.sidebar-menu {
+    background-color: #152C5B;
+}
+
+.sidebar {
+    height: 100vh; /* Set sidebar height to full viewport height */
+    width: 200px; /* Set sidebar width according to your design */
+    position: fixed; /* Fixed positioning to keep it fixed while scrolling */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    // background-color: #333; /* Set background color */
+    color: #fff; /* Set text color */
+    padding-top: 20px; /* Adjust top padding according to your design */
+  }

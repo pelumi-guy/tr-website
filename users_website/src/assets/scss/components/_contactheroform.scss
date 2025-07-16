@@ -1,0 +1,140 @@
+.contact-hero-form-section {
+    position: relative;
+    margin: 0px;
+    padding: 7rem;
+    background-image: var(--contact-bg-image);
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh; // Make it take at least full viewport height
+    display: flex;
+    align-items: center; // Vertically center content
+    // padding-top: 100px; // Figma's Top Space/4000 is large, so substantial padding
+    // padding-bottom: 100px; // Or use flexbox to center for dynamic height
+    .contact-hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($black, 0.70); // 70% opacity black from Figma
+        z-index: 1;
+    }
+    .contact-content-container {
+        position: relative;
+        z-index: 2; // Above overlay
+        width: 100%;
+        max-width: 1200px; // Max width from Figma
+        padding-left: 100px; // Horizontal padding from Figma (applied by container or custom)
+        padding-right: 100px; // Bootstrap's .container applies its own padding, so might need to override or use .container-fluid
+        // If using .container-fluid, then these paddings are exact.
+        // If using .container, and its padding is, say, 15px, you'd need ~85px more.
+    }
+    .contact-info-column {
+        // Styles for the left column text content
+        .contact-title {
+            // font-size: $display-3 or your equivalent for "Contact Us"
+        }
+        .contact-subtitle {
+            // font-size: $lead-font-size;
+            opacity: 0.9;
+        }
+        .contact-detail-item {
+            .contact-icon {
+                color: $white; // Or a highlight color like $lightBlue
+                // Could wrap icon in a circle:
+                // background-color: rgba($white, 0.1);
+                // border-radius: 50%;
+                // padding: $spacer * 0.5;
+                // width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            }
+            .contact-detail-title {
+                // font-size: $h5-font-size;
+                color: $white;
+            }
+            .contact-detail-line {
+                color: rgba($white, 0.85);
+                font-size: 0.95rem;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    .contact-form-card {
+        background-color: $white;
+        border: none;
+        border-radius: $border-radius-lg; // Rounded corners for form card
+        .card-body {
+            // p-4 or p-md-5 from Bootstrap gives good padding
+        }
+        .form-label {
+            font-weight: 500;
+            color: $textBlack;
+            font-size: 0.9rem;
+        }
+        .form-control {
+            // background-color: $light; // Slightly off-white background for inputs
+            // border-color: $second-light;
+            &:focus {
+                // border-color: $lightBlue;
+                // box-shadow: 0 0 0 0.25rem rgba($lightBlue, 0.25);
+            }
+        }
+        .submit-btn {
+            background-color: $black; // Dark submit button
+            border-color: $black;
+            color: $white;
+            padding-top: $btn-padding-y * 1.2;
+            padding-bottom: $btn-padding-y * 1.2;
+            font-weight: 500;
+            &:hover,
+            &:focus {
+                background-color: lighten($black, 10%);
+                border-color: lighten($black, 10%);
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@include media-breakpoint-down(lg) {
+    .contact-hero-form-section {
+        .contact-content-container {
+            padding-left: $spacer * 2; // Reduce side padding on smaller screens
+            padding-right: $spacer * 2;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .contact-hero-form-section {
+        padding: 3rem;
+        min-height: auto; // Allow height to be defined by content on mobile
+        padding-top: $spacer * 3;
+        padding-bottom: $spacer * 3;
+        align-items: flex-start; // Don't vertically center if height is auto
+        .contact-info-column {
+            text-align: center;
+            margin-bottom: $spacer * 3; // Space between info and form when stacked
+            .contact-detail-item {
+                flex-direction: column;
+                align-items: left !important; // Override d-flex align-items-start
+                text-align: left;
+                .contact-icon {
+                    margin-right: 0 !important;
+                    margin-bottom: $spacer * 0.5;
+                }
+            }
+        }
+        .contact-title {
+            font-size: $mobile-h1 * 1.2; // Adjust main title for mobile
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .contact-hero-form-section {
+        padding: 2rem 1.5rem;
+    }
+}

@@ -1,0 +1,189 @@
+.meet-the-team-section {
+    // background-color: $white;
+    // py-5 from Bootstrap gives approx 48px padding.
+    // Figma has 64px (4rem), so py-5 is close. Use custom padding if strictness is needed.
+    // padding-top: 64px;
+    // padding-bottom: 64px;
+    overflow: hidden; // Prevent decorative circles from causing horizontal scroll if they peek out
+    .team-image-collage-wrapper {
+        position: relative;
+        min-height: 577px;
+        display: flex; // Can help with alignment if needed, or just use for positioning context
+        align-items: center;
+        justify-content: center; // Center the group of images/circles if they don't fill width
+        .decorative-circle {
+            border-radius: 50%;
+            z-index: 1; // Behind images
+            &.large-circle {
+                position: relative;
+                justify-self: center;
+                width: 520px; // Adjust based on Figma
+                height: 520px;
+                background-color: rgba( $second-light, 0.5); // Use your $second-light with opacity
+                // Example positioning - adjust with top/left/right/bottom or transforms
+                // top: 0%;
+                // right: 0%;
+                // transform: translate(0%, 0%);
+            }
+            &.small-circle {
+                position: absolute;
+                width: 180px;
+                height: 180px;
+                background-color: rgba($light, 0.6); // Use your $light with opacity
+                // Example positioning
+                top: 70%;
+                left: 50%;
+                transform: translate(50%, -30%);
+            }
+            &.smallest-circle {
+                position: absolute;
+                width: 90px; // Adjust
+                height: 90px;
+                background-color: rgba($light, 0.4); // Use your $light with opacity
+                // Example positioning
+                top: 20%;
+                left: 0%;
+                transform: translate(40%, -30%);
+            }
+        }
+        .team-image-item {
+            position: absolute;
+            z-index: 10; // Above decorative circles
+            border-radius: $border-radius; // Rounded corners for images
+            overflow: hidden; // Ensure image inside respects border-radius
+            // Define base width/height or max-width for images
+            width: 280px; // Example width
+            // height: 380px; // Example height, or let aspect ratio from next/image define it
+            .team-member-photo {
+                display: block; // Remove any extra space below image
+            }
+            // Specific positioning for the two images to create offset/overlap
+            // These are examples, you'll need to fine-tune based on exact Figma placement
+            &.team-image-1 {
+                top: 0;
+                right: 0;
+                max-width: 256px;
+                max-height: 256px;
+            }
+            &.team-image-2 {
+                bottom: 0;
+                left: 0;
+                max-width: 256px;
+                max-height: 256px;
+                // margin-left: -$spacer * 2;
+                // margin-top: $spacer * 2;
+            }
+        }
+    }
+    .team-text-content {
+        h2 {
+            color: $textBlack;
+        }
+        p.lead {
+            color: $muted;
+            font-size: 1.1rem; // Adjust lead paragraph size
+            line-height: 1.7;
+        }
+    }
+}
+
+// Responsive adjustments
+@include media-breakpoint-down(lg) {
+    .meet-the-team-section {
+        .team-image-collage-wrapper {
+            min-height: 400px;
+            .decorative-circle {
+                &.large-circle {
+                    width: 320px;
+                    height: 320px;
+                }
+                &.small-circle {
+                    width: 130px;
+                    height: 130px;
+                }
+                &.smallest-circle {
+                    width: 65px;
+                    height: 65px;
+                    left: 50;
+                }
+            }
+            .team-image-item {
+                width: 200px;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .meet-the-team-section {
+        text-align: center; // Center text when columns stack
+        .team-image-collage-wrapper {
+            margin-bottom: $spacer * 3; // Space between image collage and text when stacked
+            min-height: 350px;
+            min-width: 300px;
+            // Reposition or simplify collage for mobile
+            .team-image-item {
+                width: 150px; // Smaller images
+                margin: $spacer auto; // Center images if they don't overlap as much
+                transform: none !important; // Reset transforms for simpler stacking
+                &.team-image-1 {
+                    margin-bottom: $spacer;
+                    right: 140;
+                    max-width: 135px;
+                    max-height: 135px;
+                }
+                &.team-image-2 {
+                    margin-top: -$spacer * 2;
+                    left: 140;
+                    max-width: 135px;
+                    max-height: 135px;
+                } // Maintain some overlap
+            }
+            .decorative-circle {
+                // May need to simplify or reposition circles too
+                &.large-circle {
+                    width: 280px;
+                    height: 280px;
+                    // top: 50;
+                    // left: 50;
+                    // transform: translate(0%, 0%);
+                }
+                &.small-circle {
+                    width: 96px;
+                    height: 96px;
+                }
+                &.smallest-circle {
+                    width: 48px;
+                    height: 48px;
+                    left: 220;
+                }
+            }
+        }
+        .team-text-content {
+            h2 {
+                font-size: $mobile-h1; // Use your mobile heading sizes
+            }
+            p.lead {
+                font-size: $mobile-p;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .team-image-item {
+        &.team-image-1 {
+            right: 0;
+        }
+        &.team-image-2 {
+            left: 0;
+        }
+    }
+    .decorative-circle {
+        &.smallest-circle {
+            width: 48px;
+            height: 48px;
+            left: 0;
+        }
+    }
+}

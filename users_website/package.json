@@ -1,0 +1,53 @@
+{
+    "name": "trancendent_realty_website",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@mui/icons-material": "^5.8.3",
+        "@pankod/refine-cli": "^1.2.0",
+        "@pankod/refine-core": "^3.18.0",
+        "@pankod/refine-inferencer": "^2.8.0",
+        "@pankod/refine-mui": "^3.30.0",
+        "@pankod/refine-react-hook-form": "^3.27.1",
+        "@pankod/refine-react-router-v6": "^3.18.0",
+        "@pankod/refine-simple-rest": "^3.18.0",
+        "@testing-library/jest-dom": "^5.12.0",
+        "@testing-library/react": "^11.2.6",
+        "@testing-library/user-event": "^12.8.3",
+        "@types/jest": "^26.0.23",
+        "aos": "^2.3.4",
+        "apexcharts": "^3.36.3",
+        "axios": "^0.26.1",
+        "bootstrap": "^5.3.3",
+        "cloudinary": "^2.6.1",
+        "mongoose": "^8.14.3",
+        "next": "15.3.2",
+        "next-auth": "^4.24.11",
+        "react": "^19.0.0",
+        "react-apexcharts": "^1.4.0",
+        "react-bootstrap": "^2.10.10",
+        "react-countup": "^6.5.3",
+        "react-dom": "^19.0.0",
+        "react-icons": "^5.5.0",
+        "react-scripts": "^5.0.0",
+        "swiper": "^11.1.1",
+        "web-vitals": "^1.1.1"
+    },
+    "devDependencies": {
+        "@eslint/eslintrc": "^3",
+        "@types/bootstrap": "^5.2.10",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "eslint": "^9",
+        "eslint-config-next": "15.3.2",
+        "sass": "^1.75.0",
+        "typescript": "^5"
+    }
+}

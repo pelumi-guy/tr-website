@@ -1,0 +1,126 @@
+.property-showcase-carousel .carousel-item {
+    /* Adjust height as per your design. Can be vh or fixed px */
+    height: 80vh;
+    /* Example: 70% of viewport height */
+    min-height: 500px;
+    /* Minimum height */
+    max-height: 700px;
+    /* Maximum height */
+}
+
+.property-showcase-carousel .showcase-slide-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.property-showcase-carousel .showcase-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures image covers the area, might crop */
+}
+
+.property-showcase-carousel .showcase-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Adjust opacity for darkness */
+}
+
+
+/* Ensure caption is on top and properly positioned */
+
+.property-showcase-carousel .carousel-caption {
+    position: absolute;
+    /* Override Bootstrap's default if needed */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 5rem;
+    /* Adjust padding to push content from top */
+    padding-bottom: 5rem;
+    /* Adjust padding to push content from bottom */
+    z-index: 10;
+    /* Ensure caption is above overlay */
+}
+
+
+/* Optional: Style for carousel indicators if needed */
+
+.property-showcase-carousel .carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    margin-right: 5px;
+    margin-left: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Semi-transparent white */
+}
+
+.property-showcase-carousel .carousel-indicators .active {
+    background-color: #fff;
+    /* Active indicator color */
+}
+
+
+/* Optional: Style for carousel controls if needed */
+
+.property-showcase-carousel .carousel-control-prev-icon,
+.property-showcase-carousel .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Give a slight background to icons */
+    border-radius: 0.25rem;
+    padding: 1rem;
+    /* Make them a bit larger */
+}
+
+.property-showcase-carousel .carousel-item {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), 0 100%);
+    /* The above won't create a wave but will create the effect of a cutout
+       - Replace with custom path:  polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+       - Or a more complex wave shape using more points.
+   */
+    overflow: hidden;
+    /* important to hide overflow */
+}
+
+// ... (other carousel styles from previous example) ...
+.wavy-bottom-svg-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    /* Removes extra space below SVG */
+    transform: translateY(1px);
+    /* Tiny offset to prevent thin lines on some browsers */
+}
+
+.wavy-bottom-svg-container svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Adjust height based on your SVG's aspect ratio and desired visual height */
+    /* max-height: 100px; /* Control the visual height of the wave */
+}
+
+.carousel-indicators {
+    margin-bottom: 60px;
+}
+
+@include media-breakpoint-down(md) {
+    .carousel-indicators {
+        margin-bottom: 40px;
+    }
+    .wavy-bottom-svg-container svg {
+        height: 50px;
+        width: auto;
+    }
+}

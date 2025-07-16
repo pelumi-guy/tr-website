@@ -1,0 +1,88 @@
+.mission-statement-section {
+    background-color: $white;
+    // py-5 from Bootstrap gives approx 48px padding.
+    // Figma has 64px, so you might want to use custom padding classes or inline styles
+    // e.g., padding-top: 64px; padding-bottom: 64px;
+    .mission-image-wrapper {
+        border-radius: $border-radius; // Add rounded corners to the image wrapper
+        overflow: hidden; // To make the image inside also appear rounded
+        line-height: 0; // Prevent extra space if image is inline-block
+        .mission-image {
+            display: block; // Ensure it behaves as a block element
+            border-radius: $border-radius; // Apply to image if wrapper doesn't clip perfectly
+        }
+    }
+    .mission-quote-wrapper {
+        position: relative; // For positioning the quote marks absolutely if needed
+        padding-left: $spacer * 2; // Indent text from the opening quote mark
+        padding-right: $spacer * 2; // Space for the closing quote mark
+        .quote-mark {
+            font-family: Georgia, 'Times New Roman', Times, serif; // A classic serif for quotes
+            font-size: 5rem; // Large quote marks
+            color: $muted; // Use a theme color, e.g., your $lightBlue or $muted
+            line-height: 0.5; // Adjust line-height to pull them closer vertically
+            display: block; // Or inline-block if preferred
+            font-weight: bold;
+            &.open-quote {
+                position: absolute;
+                top: -$spacer * 0.5; // Adjust to position nicely above and to the left
+                left: -$spacer * 0.5; // Pull slightly outside the text flow
+                // transform: translateY(-20%); // Fine-tune vertical alignment
+            }
+            &.close-quote {
+                position: absolute;
+                bottom: -$spacer * 1; // Adjust to position nicely below and to the right
+                right: -$spacer * 0.5; // Pull slightly outside the text flow
+                // transform: translateY(20%); // Fine-tune vertical alignment
+            }
+        }
+        .mission-quote-text {
+            font-size: 1.15rem; // Slightly larger than standard paragraph
+            // font-style: italic; // Optional: if you want italicized quote text
+            color: $textBlack; // Or $muted
+            line-height: 1.8;
+            margin-bottom: 0; // Remove default blockquote margin
+            position: relative; // To ensure text is above absolutely positioned quotes if z-index issues arise
+            z-index: 1;
+            text-align: justify;
+        }
+    }
+}
+
+// Responsive adjustments
+@include media-breakpoint-down(md) {
+    .mission-statement-section {
+        .mission-image-wrapper {
+            margin-bottom: $spacer * 2; // Add space when image stacks above text
+        }
+        .mission-quote-wrapper {
+            padding-left: $spacer * 1.5;
+            padding-right: $spacer * 1.5;
+            text-align: center; // Center text on smaller screens
+            .quote-mark {
+                font-size: 4rem; // Slightly smaller quotes on mobile
+                &.open-quote {
+                    top: -$spacer * 0.25;
+                    left: 0; // Bring closer to centered text
+                }
+                &.close-quote {
+                    bottom: -$spacer * 0.75;
+                    right: 0; // Bring closer to centered text
+                }
+            }
+            .mission-quote-text {
+                font-size: 1.05rem;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .mission-statement-section {
+        .mission-quote-wrapper {
+            .quote-mark {
+                font-size: 3.5rem;
+            }
+        }
+    }
+}

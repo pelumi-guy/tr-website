@@ -1,0 +1,116 @@
+.stats-testimonials-section {
+    background-color: $white; // Default section background
+    margin: 1rem 0rem 0rem 0rem;
+    padding: 2.5rem 0rem 2.5rem 0rem;
+    // py-4 from Bootstrap is 1.5rem (24px if 1rem=16px).
+    // This matches Figma's Top/Bottom padding for Frame 71.
+    // The mb-5 pb-lg-4 on the stats row is to create the large 120px gap.
+    // mb-5 is 3rem (48px). pb-lg-4 adds another 1.5rem (24px) on large screens.
+    // This gets us to 72px. For exactly 120px, you might need a custom margin class
+    // or adjust further: e.g., mb-5 pb-5 (3rem + 3rem = 96px) and add more if needed.
+    // Or a simple custom class:
+    // .stats-row { margin-bottom: 120px; }
+    .stat-card {
+        background-color: rgba($primary, 0.8); // Your light card background (e.g., $f5f5f5)
+        // Or if $white is the card background and section is $light, adjust accordingly.
+        padding: $spacer * 1.5 $spacer;
+        border-radius: $border-radius-lg; // Rounded corners
+        min-height: 130px; // Give some consistent height
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .stat-count {
+            color: $textBlack;
+            line-height: 1.1;
+            // font-size: 3.5rem; // Adjust based on Figma (display-3 is large)
+        }
+        .stat-label {
+            color: $textBlack;
+            letter-spacing: 0.5px;
+            margin-top: $spacer * 0.25;
+        }
+    }
+    .testimonials-content {
+        .section-title {
+            color: $textBlack;
+            // font-size: $h2-font-size;
+        }
+        .lead.text-muted {
+            color: $muted !important;
+        }
+        .testimonial-item {
+            // background-color: $lightOrange; // Optional: if testimonials have a very light bg
+            // padding: $spacer;
+            // border-radius: $border-radius-md;
+            // margin-bottom: $spacer * 1.5; // If they are not in a grid and need individual spacing
+            .testimonial-icon {
+                // SVG icon color can be set via className="text-primary" or similar
+                // Or directly:
+                // svg { color: $lightBlue; }
+            }
+            .testimonial-title {
+                color: $textBlack;
+                margin-bottom: $spacer * 0.5;
+                // font-size: $h5-font-size;
+            }
+            .testimonial-text p {
+                color: $muted;
+                line-height: 1.4;
+                font-size: 1rem;
+                text-align: justify;
+                // font-size: $small-font-size or $mobile-p;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@include media-breakpoint-down(lg) {
+    .stats-testimonials-section {
+        .stat-card {
+            .stat-count {
+                font-size: 3rem; // Slightly smaller for tablets
+            }
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .stats-testimonials-section {
+        .row.mb-5 {
+            // Target the stats row specifically for mobile gap adjustment
+            margin-bottom: $spacer * 3 !important; // Reduce gap on mobile
+            padding-bottom: 0 !important;
+        }
+        .stat-card {
+            padding: $spacer $spacer * 0.75;
+            min-height: 110px;
+            max-width: 33%;
+            margin-bottom: $spacer; // If they stack fully before sm
+            .stat-count {
+                font-size: 2.5rem;
+            }
+            .stat-label {
+                font-size: 0.75rem;
+            }
+        }
+        .testimonials-content {
+            .section-title {
+                font-size: $mobile-h2;
+            }
+            .lead.text-muted {
+                font-size: $mobile-p;
+            }
+            .testimonial-item {
+                text-align: center; // Center testimonial items if icon stacks above
+                flex-direction: column;
+                align-items: center;
+                .testimonial-icon {
+                    margin-right: 0 !important;
+                    margin-bottom: $spacer * 0.75;
+                }
+            }
+        }
+    }
+}

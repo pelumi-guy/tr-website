@@ -1,0 +1,203 @@
+// _productdetailpage.scss (or individual component SCSS files)
+// --- ImageGallery ---
+.image-gallery-container {
+    .main-image-wrapper {
+        position: relative;
+        // aspect-ratio: 16 / 10; // Or define a fixed height
+        height: 450px; // Example fixed height for main image
+        border-radius: $border-radius;
+        overflow: hidden;
+        background-color: $light;
+        .main-gallery-media {
+            // styles for next/image or video element if needed
+        }
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba($black, 0.4);
+            color: $white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background-color 0.2s ease;
+            &:hover {
+                background-color: rgba($black, 0.7);
+            }
+            &.prev-btn {
+                left: $spacer;
+            }
+            &.next-btn {
+                right: $spacer;
+            }
+        }
+        .gallery-overlay-btn {
+            position: absolute;
+            background-color: rgba($black, 0.3);
+            color: $white;
+            border: none;
+            border-radius: $border-radius;
+            padding: $spacer * 0.5 $spacer * 0.75;
+            z-index: 10;
+            transition: background-color 0.2s ease;
+            &:hover {
+                background-color: rgba($black, 0.6);
+            }
+            &.bookmark-icon-btn {
+                top: $spacer;
+                right: $spacer;
+                border-radius: 50%; // Make it circular if desired
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            &.play-icon-btn {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba($black, 0.5);
+                border-radius: 50%;
+                padding: $spacer * 0.5;
+                svg {
+                    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+                }
+            }
+        }
+    }
+    .thumbnails-wrapper {
+        gap: $spacer * 0.75; // Spacing between thumbnails
+        .thumbnail-item {
+            width: 100px; // Fixed width for thumbnails
+            height: 75px;
+            border-radius: $border-radius;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            transition: border-color 0.2s ease;
+            img {
+                display: block;
+            }
+            &.active {
+                border-color: $primary; // Use your primary color
+                box-shadow: 0 0 0 2px $primary;
+            }
+            &:hover {
+                border-color: darken($primary, 10%);
+            }
+            .thumbnail-play-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: $white;
+                opacity: 0.8;
+                background-color: rgba($black, 0.4);
+                border-radius: 50%;
+                padding: $spacer * 0.25;
+            }
+        }
+    }
+}
+
+// --- ProductInfo ---
+.product-info-section {
+    .product-title {
+        // font-size: $h1-font-size; // Or your specific title size
+        color: $textBlack;
+    }
+    .product-tag {
+        // background-color: $transBlue !important; // Your tag background
+        // color: $lightBlue !important; // Your tag text color
+        // border: 1px solid $lightBlue;
+        font-weight: 500;
+    }
+    .product-price {
+        color: $primary; // Or your price color
+    }
+    .product-location {
+        // color: $muted;
+    }
+}
+
+// --- AgentCard ---
+.agent-card {
+    border-radius: $border-radius;
+    .agent-image-wrapper img {
+        // Styles for agent image if needed
+    }
+    .agent-name {
+        color: $textBlack;
+    }
+    .agent-title {
+        // color: $muted;
+    }
+    .stars-container {
+        // .filled-star { fill: $warning; } // Use Bootstrap's $warning or your star color
+    }
+    .rating-text {
+        // color: $muted;
+    }
+}
+
+// --- Book A Tour Button ---
+.book-tour-btn {
+    background-color: $black; // Dark button as per Figma
+    border-color: $black;
+    color: $white;
+    font-weight: 500;
+    border-radius: $border-radius !important;
+    padding: $btn-padding-y-lg $btn-padding-x-lg; // Make it a large button
+    &:hover,
+    &:focus {
+        background-color: lighten($black, 10%);
+        border-color: lighten($black, 10%);
+    }
+}
+
+// --- AmenitiesGrid ---
+.amenities-grid-section {
+    .section-subtitle {
+        // For "Key Features & Amenities"
+        color: $textBlack;
+        // font-size: $h4-font-size;
+    }
+    .amenity-item {
+        border: 1px solid $second-light; // Light border for amenity items
+        border-radius: $border-radius;
+        transition: box-shadow 0.2s ease;
+        background-color: $white;
+        &:hover {
+            box-shadow: $box-shadow-sm !important;
+        }
+        .amenity-icon svg {
+            color: $primary; // Default icon color
+        }
+        .amenity-text {
+            color: $textBlack;
+        }
+    }
+}
+
+// --- Main Product Detail Page Container ---
+.product-detail-page {
+    background-color: $white;
+    .container {
+        // Assuming Bootstrap container. Figma's "Space/1600" for padding.
+        // Bootstrap's container already has padding. If "Space/1600" is significantly larger,
+        // you might need a custom wrapper or use .container-fluid with explicit padding.
+        // max-width: 1200px; // As often implied by Figma's fixed width content areas
+    }
+    .product-details-column {
+        // Vertical spacing (Gap: Space/600) between elements like ProductInfo, AgentCard, Button, AmenitiesGrid
+        // is handled by margins (mb-4) on those components.
+    }
+}

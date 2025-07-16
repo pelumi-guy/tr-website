@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none"> {/*
+    Adjust viewBox height (100 here) */} <path
+        d="M0,50 C150,150 350,0 500,50 C650,100 850,-20 1000,50 C1150,120 1300,0 1440,50 L1440,100 L0,100 Z"
+        fill="#FFFFFF"></path> {/* fill="#FFFFFF" should be the background of the section BELOW the
+    carousel */} </svg>

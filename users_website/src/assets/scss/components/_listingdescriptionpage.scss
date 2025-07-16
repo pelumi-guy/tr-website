@@ -1,0 +1,67 @@
+.product-description-section {
+    background-color: $white; // Assuming white background as per Figma
+    // Padding: Top 64px, Right 64px, Left 64px (from Figma for "Description text" frame)
+    // Bootstrap's card-body gives some padding, adjust if needed
+    // padding: $spacer * 2.5; // Example: approx 40px if spacer is 1rem
+    // For precise 64px padding, if not handled by a parent container:
+    padding: 64px;
+    border: 2px solid $white;
+    border-radius: $border-radius-xl; // Larger radius if desired for this section card
+    .section-main-title {
+        color: $textBlack;
+        // font-size: $h3-font-size; // Or your specific title size
+    }
+    .show-more-less-btn {
+        color: $lightBlue !important;
+        font-weight: 500;
+        // font-size: 0.9rem;
+        &:hover,
+        &:focus {
+            color: darken($lightBlue, 50%) !important;
+            text-decoration: underline;
+        }
+    }
+    .description-intro-text {
+        // color: $muted;
+        // font-size: 1rem; // Or $paragraph-font-size
+        transition: max-height 0.3s ease-out; // For smoother expand/collapse if using CSS for it
+    }
+    .key-features-container {
+        margin-top: $spacer * 1.5; // Space between intro text and key features
+        .key-features-title {
+            color: $textBlack;
+            // font-size: $h5-font-size;
+        }
+        .key-features-list {
+            .feature-bullet {
+                color: $muted; // Color for the hyphen/bullet
+                line-height: inherit; // Match text line-height
+            }
+            .feature-text {
+                color: $muted; // Or $textBlack if preferred
+                line-height: 1.7;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@include media-breakpoint-down(md) {
+    .product-description-section {
+        padding: $spacer * 2; // Reduce padding on smaller screens
+        .section-main-title {
+            font-size: $mobile-h3; // Adjust title size for mobile
+        }
+        .description-intro-text {
+            font-size: $mobile-p; // Adjust paragraph size for mobile
+        }
+        .key-features-container {
+            .key-features-title {
+                font-size: $mobile-h4;
+            }
+            .feature-text {
+                font-size: $mobile-p * 0.95;
+            }
+        }
+    }
+}

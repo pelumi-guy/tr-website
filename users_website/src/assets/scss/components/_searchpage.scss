@@ -1,0 +1,86 @@
+// _searchpage.scss or _filterssidebar.scss
+.filters-sidebar {
+    // background-color: $light; // Use your light background variable
+    border-radius: $border-radius-lg;
+    .card-body {
+        padding: $spacer * 1.25;
+    }
+    .filter-title {
+        color: $textBlack;
+        // font-size: $h6-font-size;
+    }
+    .keyword-badge {
+        // background-color: $transBlue !important; // Use your specific badge color
+        // color: $lightBlue !important;
+        // border: 1px solid $lightBlue;
+        font-weight: 500;
+        .cursor-pointer {
+            cursor: pointer;
+        }
+    }
+    .form-range {
+        // Customize range slider if needed
+    }
+    .location-checkbox {
+        // Customize checkboxes if needed
+        .form-check-input:checked {
+            // background-color: $lightBlue;
+            // border-color: $lightBlue;
+        }
+    }
+}
+
+// _searchpage.scss or _searchbarandsort.scss
+.search-bar-sort-wrapper {
+    .input-group .form-control {
+        // border-end-width: 0;
+    }
+    .input-group .btn-primary {
+        // background-color: $lightBlue;
+        // border-color: $lightBlue;
+    }
+    .sort-options {
+        .btn-group .btn {
+            // font-size: 0.875rem;
+            // padding: $btn-padding-y-sm $btn-padding-x-sm * 1.5;
+        }
+        // .btn.active, .btn:active, .btn:focus {
+        //   background-color: $lightBlue !important;
+        //   border-color: $lightBlue !important;
+        //   color: $white !important;
+        // }
+        // .btn.outline-secondary:not(.active):not(:active):not(:focus){
+        //   color: $muted;
+        // }
+    }
+}
+
+// _searchpage.scss or _propertyresultsgrid.scss
+.property-results-grid {
+    // Styles for the grid itself if needed
+}
+
+// _searchpage.scss or _propertycard.scss (styles specific to how it appears in search)
+.property-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $box-shadow-lg !important; // Use Bootstrap's shadow variable or your own
+    }
+    .property-card-image-wrapper {
+        height: 220px; // Or desired fixed height for card images in grid
+        position: relative;
+    }
+    .bookmark-btn {
+        // background-color: rgba($white, 0.8);
+    }
+    .property-title {
+        // min-height: 2.5em; // Ensure consistent title height for 2 lines
+    }
+    // Any other specific styles for the card in the search context
+}
+
+// Main search page container styles
+// .search-page-container {
+//     background-color: $white; // As per Figma's #FFFFFF for "Search Page" frame
+// }
