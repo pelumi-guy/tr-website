@@ -43,18 +43,20 @@ const getAllProperties = async(req, res) => {
     }
 }
 
-const getAllPropertyDetails = async(req, res) => {
+const getPropertyDetails = async(req, res) => {
     const { id } = req.params;
     console.log("id:", id);
-    const propertyExists = await Property.findById(id).populate('creator');
+    const propertyExists = await Property.findById(id).populate('creator').populate('agency');
     // const propertyExists = await Property.findOne({ id: mongoose.Types.ObjectId(id.trim()) });
 
     if (propertyExists) {
-        res.status(200).json(propertyExists)
+        res.status(200).json({
+            success: true,
+            data: propertyExists
+        })
     } else {
         res.status(404).json({ message: 'Property not found' });
     }
-
 }
 
 const createProperty = async(req, res) => {
@@ -140,7 +142,7 @@ const deleteProperty = async(req, res) => {
 
 export {
     getAllProperties,
-    getAllPropertyDetails,
+    getPropertyDetails as getAllPropertyDetails,
     createProperty,
     updateProperty,
     deleteProperty

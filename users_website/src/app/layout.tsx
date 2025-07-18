@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../assets/scss/main.scss";
 import "../assets/scss/library/style.scss";
 import "./globals.css";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 import AOSAnimation from "@/utils/AosInit";
 import Header from "@/components/user/layout/Header";

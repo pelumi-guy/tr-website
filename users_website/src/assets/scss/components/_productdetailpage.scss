@@ -1,0 +1,72 @@
+.custom-gallery-container {
+    .main-display-area {
+        position: relative;
+        border-radius: $border-radius-lg;
+        overflow: hidden;
+        background-color: $light;
+        min-height: 450px; // Ensure a minimum height
+        .main-display-media {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        // Style the gallery's navigation and bullets if needed
+        .image-gallery-bullets .image-gallery-bullet.active {
+            background-color: $primary; // Use your primary color
+            border-color: $primary;
+        }
+        .image-gallery-icon {
+            color: $white;
+            filter: drop-shadow(0 1px 2px rgba($black, 0.3));
+            &:hover {
+                color: $primary;
+            }
+        }
+    }
+    .custom-thumbnails-wrapper {
+        gap: $spacer * 0.75; // Gap between thumbnails
+        .thumbnail-separator {
+            height: 75px; // Match thumbnail height
+            border-left: 1px solid $second-light; // Your light border color
+        }
+        .custom-thumbnail-item {
+            width: 100px; // Fixed width for thumbnails
+            height: 75px;
+            border-radius: $border-radius-sm;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            flex-shrink: 0; // Prevent thumbnails from shrinking
+            img {
+                display: block;
+            } // next/image adjustment
+            &:hover {
+                transform: scale(1.05);
+            }
+            &.active {
+                border-color: $primary; // Use your primary color for active state
+                box-shadow: 0 0 0 2px rgba($primary, 0.5);
+            }
+            &.video-thumbnail .thumbnail-play-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: $white;
+                opacity: 0.9;
+                background-color: rgba($black, 0.4);
+                border-radius: 50%;
+                padding: $spacer * 0.25;
+                pointer-events: none; // So click goes through to the parent div
+                filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+            }
+        }
+        .custom-image-thumbnails {
+            gap: $spacer * 0.75;
+            overflow-x: auto; // Allow horizontal scrolling if many images
+            padding-bottom: $spacer * 0.5; // Space for scrollbar
+        }
+    }
+}

@@ -10,7 +10,7 @@ const PropertyCardDisplay = ({ id, imageUrl, price, beds, baths, title, livingro
   return (
 
     <div className="card shadow-sm property-card mb-4 my-md-2 mx-4 mx-md-2 px-0" style={{ maxWidth: '20rem' }} data-aos="flip-left" data-aos-ease="liner" data-aos-duration="1200">
-      <Link href={"/listing/1"}>
+      <Link href={`/listing/${id}`}>
         <div className="card-image-container position-relative d-flex justify-content-center">
           <Image
             src={imageUrl || "https://via.placeholder.com/400x250"}
@@ -42,7 +42,7 @@ const PropertyCardDisplay = ({ id, imageUrl, price, beds, baths, title, livingro
             {/* Price */}
             {/* Use fs- for font size, fw- for weight. Colors: text-dark, text-primary etc. or custom */}
             <p className="fs-4 fw-bold text-dark mb-0"> {/* Or e.g., text-primary */}
-              ₦{price}
+              ₦{price.toLocaleString()}
             </p>
 
             {/* Features Icons */}
@@ -53,7 +53,7 @@ const PropertyCardDisplay = ({ id, imageUrl, price, beds, baths, title, livingro
                   src={icons.BedIcon}
                   alt='bed icon'
                 />
-                <span className="small">{beds}</span> {/* Or fs-sm */}
+                <span className="small text-black">{beds}</span> {/* Or fs-sm */}
               </div>
               <div className="d-flex align-items-center" style={{ gap: '0.25rem' }}>
                 {/* Replace with your Couch/Living Room SVG Icon */}
@@ -61,7 +61,7 @@ const PropertyCardDisplay = ({ id, imageUrl, price, beds, baths, title, livingro
                   src={icons.SofaIcon}
                   alt='sofa icon'
                 />
-                <span className="small">{livingrooms}</span>
+                <span className="small text-black">{livingrooms}</span>
               </div>
               <div className="d-flex align-items-center" style={{ gap: '0.25rem' }}>
                 {/* Replace with your Third SVG Icon (e.g., Bath) */}
@@ -69,16 +69,15 @@ const PropertyCardDisplay = ({ id, imageUrl, price, beds, baths, title, livingro
                   src={icons.ShowerIcon}
                   alt='shower icon'
                 />
-                <span className="small">{baths}</span>
+                <span className="small text-black">{baths}</span>
               </div>
-              <div className="d-flex align-items-center" style={{ gap: '0.25rem' }}>
-                {/* Replace with your Third SVG Icon (e.g., Bath) */}
+              {/* <div className="d-flex align-items-center" style={{ gap: '0.25rem' }}>
                 <Image
                   src={icons.SwimmingPoolIcon}
                   alt='swimming pool icon'
                 />
-                <span className="small">{baths}</span>
-              </div>
+                <span className="small text-black">{baths}</span>
+              </div> */}
             </div>
           </div>
 

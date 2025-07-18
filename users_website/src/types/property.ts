@@ -6,13 +6,13 @@ export interface IAdmin {
   _id: string;
   name: string;
   email: string;
-  // add other admin fields if needed
+  avatar: string;
 }
 
 export interface IAgency {
   _id: string;
   name: string;
-  licenseNumber: string;
+  email: string;
   // add other agency fields if needed
 }
 
@@ -64,8 +64,8 @@ export interface IProperty {
   features: string[];
 
   // These fields will be string ObjectIds unless you .populate() them in your API query
-  creator: string | IAdmin;
-  agency: string | IAgency;
+  creator: IAdmin;
+  agency: IAgency;
 
   // Timestamps added by Mongoose
   createdAt: string; // Dates are typically serialized as ISO strings

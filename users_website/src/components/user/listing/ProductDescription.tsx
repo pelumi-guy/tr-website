@@ -7,7 +7,7 @@ import { Amenity } from './AmenitiesGrid';
 interface ProductDescriptionProps {
     initialText: string;
     fullText?: string; // Optional: if different from initialText when expanded
-    keyFeatures: Amenity[];
+    keyFeatures: string[];
     maxInitialChars?: number; // Characters to show before "Show More..."
 }
 
@@ -52,7 +52,7 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({
                         {keyFeatures.map((feature, index) => (
                             <li key={index} className="d-flex align-items-start mb-1">
                                 <span className="feature-bullet me-2">–</span> {/* Using an en-dash as bullet */}
-                                <span className="feature-text small">{feature.text}</span>
+                                <span className="feature-text small">{feature}</span>
                             </li>
                         ))}
                     </ul>

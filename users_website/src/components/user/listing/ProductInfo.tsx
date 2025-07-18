@@ -4,7 +4,7 @@ import { Badge } from 'react-bootstrap';
 interface ProductInfoProps {
   title: string;
   tags: string[];
-  price: string; // Or number
+  price: string | number;
   location: string;
 }
 
@@ -19,7 +19,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ title, tags, price, location 
           </Badge>
         ))}
       </div>
-      <p className="product-price display-4 fw-bolder text-primary mb-1">₦{price}</p>
+      <p className="product-price display-4 fw-bolder text-primary mb-1">₦{price.toLocaleString()}</p>
       <p className="product-location text-muted">{location}</p>
     </div>
   );

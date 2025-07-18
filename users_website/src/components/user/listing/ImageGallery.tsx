@@ -1,116 +1,122 @@
-'use client'
+// components/ImageGallery.tsx
+'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
-import { FiChevronLeft, FiChevronRight, FiPlayCircle, FiBookmark } from 'react-icons/fi';
+import ReactImageGallery, { ReactImageGalleryItem } from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css"; // Import the stylesheet
+import { FiPlayCircle } from 'react-icons/fi';
 
+// This is the prop type from your page component
 export interface GalleryImage {
   id: string | number;
   src: string;
   alt: string;
-  type: 'image' | 'video'; // To differentiate content
-  videoSrc?: string; // If type is video
+  type: 'image' | 'video';
+  videoSrc?: string;
 }
 
 interface ImageGalleryProps {
-  images: GalleryImage[];
-  initialImageIndex?: number;
+  galleryImages: GalleryImage[];
 }
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ images, initialImageIndex = 0 }) => {
-  const [currentIndex, setCurrentIndex] = useState(initialImageIndex);
-  const [showVideo, setShowVideo] = useState(false);
+const ImageGallery: React.FC<ImageGalleryProps> = ({ galleryImages }) => {
+  // 1. State to control what is displayed: the image gallery or the video player
+  const [displayMode, setDisplayMode] = useState<'image' | 'video'>('image');
 
-  if (!images || images.length === 0) {
-    return <div className="image-gallery-placeholder">No images available.</div>;
-  }
+  // 2. State to track the active image index (for highlighting our custom thumbnail)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const currentImage = images[currentIndex];
+  // 3. A ref to control the ReactImageGallery component from our custom thumbnails
+  const galleryRef = useRef<ReactImageGallery>(null);
 
-  const goToPrevious = () => {
-    setShowVideo(false);
-    const isFirstImage = currentIndex === 0;
-    const newIndex = isFirstImage ? images.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
+  // 4. Separate video and image data from the incoming props
+  const videoItem = galleryImages.find(item => item.type === 'video');
+  const imageItems = galleryImages.filter(item => item.type === 'image');
+
+  // 5. Prepare the items array specifically for the react-image-gallery library
+  const imagesForGallery: ReactImageGalleryItem[] = imageItems.map(image => ({
+    original: image.src,
+    thumbnail: image.src, // We hide this, but it's good practice to have it
+    originalAlt: image.alt,
+    thumbnailAlt: image.alt,
+    originalHeight: 600
+  }));
+
+  // Handler for when one of our custom image thumbnails is clicked
+  const handleImageThumbnailClick = (index: number) => {
+    setDisplayMode('image'); // Switch display to image mode
+    setCurrentImageIndex(index);
+    galleryRef.current?.slideToIndex(index); // Tell the gallery to slide to this index
   };
 
-  const goToNext = () => {
-    setShowVideo(false);
-    const isLastImage = currentIndex === images.length - 1;
-    const newIndex = isLastImage ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
-  };
-
-  const selectImage = (index: number) => {
-    setShowVideo(false);
-    setCurrentIndex(index);
-  };
-
-  const handlePlayClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent image click if it's also a link
-    if (currentImage.type === 'video' && currentImage.videoSrc) {
-      setShowVideo(true);
-    }
+  // Handler for when the video thumbnail is clicked
+  const handleVideoThumbnailClick = () => {
+    setDisplayMode('video');
   };
 
   return (
-    <div className="image-gallery-container">
-      <div className="main-image-wrapper shadow-sm position-relative">
-        {showVideo && currentImage.type === 'video' && currentImage.videoSrc ? (
-          <video src={currentImage.videoSrc} controls autoPlay className="main-gallery-media" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    <div className="custom-gallery-container">
+      {/* --- MAIN DISPLAY AREA --- */}
+      <div className="main-display-area shadow-sm">
+        {displayMode === 'video' && videoItem ? (
+          <video
+            src={videoItem.videoSrc}
+            poster={videoItem.src} // Use thumbnail as poster
+            controls
+            autoPlay
+            muted
+            playsInline
+            className="main-display-media video-player"
+            key={videoItem.id} // Add key to force re-render if video changes
+          >
+            Your browser does not support the video tag.
+          </video>
         ) : (
-          <Image
-            src={currentImage.src}
-            alt={currentImage.alt}
-            layout="fill"
-            objectFit="cover" // or "contain" depending on desired look
-            priority // Prioritize loading the main image
-            className="main-gallery-media"
+          <ReactImageGallery
+            ref={galleryRef}
+            items={imagesForGallery}
+            showThumbnails={false} // IMPORTANT: We are building our own thumbnails
+            showPlayButton={false} // Disable default play/pause
+            showFullscreenButton={false}
+            showBullets={true} // Keep bullets for a nice indicator
+            onSlide={(index) => setCurrentImageIndex(index)} // Update our active index state
+            lazyLoad
           />
-        )}
-
-        {/* Navigation Arrows */}
-        {images.length > 1 && (
-          <>
-            <button onClick={goToPrevious} className="gallery-nav prev-btn" aria-label="Previous image">
-              <FiChevronLeft size={32} />
-            </button>
-            <button onClick={goToNext} className="gallery-nav next-btn" aria-label="Next image">
-              <FiChevronRight size={32} />
-            </button>
-          </>
-        )}
-
-        {/* Overlays: Bookmark and Play */}
-        <button className="gallery-overlay-btn bookmark-icon-btn" aria-label="Bookmark this property">
-          <FiBookmark size={24} />
-        </button>
-        {currentImage.type === 'video' && !showVideo && (
-          <button onClick={handlePlayClick} className="gallery-overlay-btn play-icon-btn" aria-label="Play video">
-            <FiPlayCircle size={64} />
-          </button>
         )}
       </div>
 
-      {/* Thumbnails */}
-      {images.length > 1 && (
-        <div className="thumbnails-wrapper mt-3 d-flex flex-wrap justify-content-start">
-          {images.map((img, index) => (
+      {/* --- CUSTOM THUMBNAIL AREA --- */}
+      <div className="custom-thumbnails-wrapper mt-3 d-flex align-items-center">
+        {/* Video Thumbnail (Left) */}
+        {videoItem && (
+          <div
+            className={`custom-thumbnail-item video-thumbnail ${displayMode === 'video' ? 'active' : ''}`}
+            onClick={handleVideoThumbnailClick}
+            role="button"
+          >
+            <Image src={videoItem.src} alt={videoItem.alt} width={100} height={75} objectFit="cover" />
+            <FiPlayCircle size={32} className="thumbnail-play-icon" />
+          </div>
+        )}
+
+        {/* Separator */}
+        {videoItem && imageItems.length > 0 && <div className="thumbnail-separator mx-2"></div>}
+
+        {/* Image Thumbnails (Right) */}
+        <div className="custom-image-thumbnails d-flex flex-wrap">
+          {imageItems.map((img, index) => (
             <div
               key={img.id}
-              className={`thumbnail-item ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => selectImage(index)}
+              className={`custom-thumbnail-item image-thumbnail ${displayMode === 'image' && index === currentImageIndex ? 'active' : ''}`}
+              onClick={() => handleImageThumbnailClick(index)}
               role="button"
-              tabIndex={0}
-              onKeyPress={(e) => e.key === 'Enter' && selectImage(index)}
-              aria-label={`View image ${index + 1}: ${img.alt}`}
             >
               <Image src={img.src} alt={img.alt} width={100} height={75} objectFit="cover" />
-              {img.type === 'video' && <FiPlayCircle size={24} className="thumbnail-play-icon" />}
             </div>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
