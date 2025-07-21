@@ -69,6 +69,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ galleryImages }) => {
             playsInline
             className="main-display-media video-player"
             key={videoItem.id} // Add key to force re-render if video changes
+            height={600}
+            width={600}
           >
             Your browser does not support the video tag.
           </video>

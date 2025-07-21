@@ -4,8 +4,9 @@ import { createAdmin, getAllAdmins, getAdminInfoById } from '../controllers/admi
 
 const router = express.Router();
 
-router.route('/').get(getAllAdmins);
-router.route('/').post(createAdmin);
+router.route('/')
+    .get(getAllAdmins)
+    .post(createAdmin);
 router.route('/:id').get(getAdminInfoById);
 
 export default router;

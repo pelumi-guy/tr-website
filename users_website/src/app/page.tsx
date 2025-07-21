@@ -31,7 +31,6 @@ export default function Home() {
     };
 
     const props = fetchProperties();
-    console.log("properties:", props);
   }, []);
 
   return (

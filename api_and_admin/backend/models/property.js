@@ -39,7 +39,7 @@ const propertySchema = new mongoose.Schema({
     // Replaces 'Pictures' and 'Video Link'
     photos: [{ type: String, required: true }], // An array of image URLs
     videoUrl: { type: String },
-    features: [{ type: String }],
+    amenities: [{ type: String }],
     isFeatured: { type: Boolean, default: false, index: true },
     viewCount: { type: Number, default: 0, index: true },
     inquiryCount: { type: Number, default: 0, index: true },

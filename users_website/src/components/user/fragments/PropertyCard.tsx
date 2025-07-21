@@ -122,6 +122,8 @@ const PropertyCard = ({ property }: { property: IProperty }) => {
     location: displayLocation,
   };
 
+  console.log("property:", property);
+
   return <PropertyCardDisplay {...cardProps} />;
 };
 

@@ -61,7 +61,7 @@ export interface IProperty {
 
   photos: string[]; // An array of image URLs
   videoUrl?: string;
-  features: string[];
+  amenities: string[];
 
   // These fields will be string ObjectIds unless you .populate() them in your API query
   creator: IAdmin;

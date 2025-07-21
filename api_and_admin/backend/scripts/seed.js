@@ -9,12 +9,11 @@ import Property from '../models/property.js';
 
 // --- Define Mongoose Schemas ---
 // These are the JavaScript versions of your TypeScript schemas.
-var configPath = path.resolve('.', 'config.env')
-console.log(`configPath: ${configPath}`);
+var configPath = path.resolve('.', 'config.env');
 
 dotenv.config({ path: configPath });
 
-console.log("env:", process.env);
+// console.log("env:", process.env);
 
 const AdminSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
@@ -108,7 +107,9 @@ const seedDatabase = async() => {
             details: { bedrooms: 5, bathrooms: 5, toilets: 6, parkingSpaces: 4 },
             area: { total: 650 },
             photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png'],
-            isFeatured: true
+            isFeatured: true,
+            amenities: ['Elevator', 'Gym', 'Swimming Pool', 'Garden'],
+            videoUrl: 'https://res.cloudinary.com/do5lofza7/video/upload/v1753059801/Transcendent_Realty/Sample_Videos/W8_Autocut_tvt7nz.mp4'
         },
         {
             title: 'Modern 3-Bedroom Apartment for Rent in Ikoyi',
@@ -121,7 +122,9 @@ const seedDatabase = async() => {
             details: { bedrooms: 3, bathrooms: 3, toilets: 4, parkingSpaces: 2 },
             area: { total: 220 },
             photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png'],
-            isFeatured: true
+            isFeatured: true,
+            amenities: ['Elevator', 'Gym', 'Swimming Pool', 'Garden'],
+            videoUrl: 'https://res.cloudinary.com/do5lofza7/video/upload/v1753059801/Transcendent_Realty/Sample_Videos/W8_Autocut_tvt7nz.mp4'
         },
         {
             title: 'Commercial Land on a Major Road in Ikeja',
@@ -130,10 +133,12 @@ const seedDatabase = async() => {
             propertyType: 'Land',
             location: { street: '789 Lekki County', city: 'Ajah', state: 'Lagos' },
             price: { amount: 500000000 },
-            details: {},
+            details: { bedrooms: 4, bathrooms: 5, toilets: 6, parkingSpaces: 5 },
             area: { total: 1200 },
             photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570979/Transcendent_Realty/Sample_Images/SemiDetachedPlaceholder_cxff1j.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570979/Transcendent_Realty/Sample_Images/SemiDetachedPlaceholder_cxff1j.png'],
-            isFeatured: false
+            isFeatured: false,
+            amenities: ['Elevator', 'Gym', 'Swimming Pool', 'Garden'],
+            videoUrl: 'https://res.cloudinary.com/do5lofza7/video/upload/v1753059801/Transcendent_Realty/Sample_Videos/W8_Autocut_tvt7nz.mp4'
         },
         {
             title: 'Luxury 6-Bedroom Detached Triplex in Ajah',
@@ -146,7 +151,9 @@ const seedDatabase = async() => {
             details: { bedrooms: 6, bathrooms: 4, toilets: 7, parkingSpaces: 4 },
             area: { total: 750 },
             photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png'],
-            isFeatured: true
+            isFeatured: true,
+            amenities: ['Elevator', 'Gym', 'Swimming Pool', 'Garden'],
+            videoUrl: 'https://res.cloudinary.com/do5lofza7/video/upload/v1753059801/Transcendent_Realty/Sample_Videos/W8_Autocut_tvt7nz.mp4'
         }
     ];
 
@@ -159,7 +166,6 @@ const seedDatabase = async() => {
                 status: prop.status,
                 propertyType: prop.propertyType,
                 propertySubtype: prop.propertySubtype,
-                details: prop.details,
                 creator: seedAdmin._id,
                 agency: seedAgency._id,
                 'location.street': prop.location.street,
@@ -168,8 +174,14 @@ const seedDatabase = async() => {
                 listingType: prop.listingType,
                 photos: prop.photos,
                 'price.amount': prop.price.amount,
-                isFeatured: prop.isFeatured
-
+                isFeatured: prop.isFeatured,
+                'details.bedrooms': prop.details.bedrooms,
+                'details.bathrooms': prop.details.bathrooms,
+                'details.toilets': prop.details.toilets,
+                'details.parkingSpaces': prop.details.parkingSpaces,
+                'details.livingrooms': prop.details.livingrooms,
+                amenities: prop.amenities,
+                videoUrl: prop.videoUrl
             } // Find by a unique combination
             // prop,
             // { upsert: true }

@@ -16,7 +16,7 @@ export const getHomepageData = async(req, res) => {
             Property.find({ isFeatured: true, status: 'Available' })
             .sort({ updatedAt: -1 }) // Show the most recently updated featured properties first
             .limit(3)
-            .select('title price location photos propertyType listingType') // Only fetch data needed for cards
+            .select('title price location photos propertyType listingType details') // Only fetch data needed for cards
             .populate('agency', 'name'), // Example: populate agency name
 
             // --- Query 2: Hot Right Now ---
@@ -28,7 +28,7 @@ export const getHomepageData = async(req, res) => {
                 createdAt: -1, // As a final tie-breaker, show the newest
             })
             .limit(3)
-            .select('title price location photos propertyType listingType status') // Include status to show 'Under Offer' badge
+            .select('title price location photos propertyType listingType status details') // Include status to show 'Under Offer' badge
             .populate('agency', 'name'),
         ]);
 

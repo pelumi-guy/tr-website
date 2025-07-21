@@ -12,6 +12,7 @@ import ProductDescription from '@/components/user/listing/ProductDescription';
 import SimilarListings from '@/components/user/listing/SimilarListings';
 import { Button } from 'react-bootstrap';
 import { IProperty } from '@/types/property'; // Assuming you have this type defined
+import AmenitiesGrid, { Amenity } from '@/components/user/listing/AmenitiesGrid';
 
 // NOTE: The line "'use server'" is not needed at the top of a Server Component file.
 // It's a server component by default. You only use it for Server Actions.
@@ -103,7 +104,20 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
         type: 'image', // Add logic here if you support videos
     }));
 
-    const tagsForComponent = product.features || [];
+    galleryImagesForComponent.push({
+        id: 'video_1',
+        src: product.photos[0],
+        alt: product.title,
+        type: 'video',
+        videoSrc: product.videoUrl
+    })
+
+    const amenitiesForGrid : Amenity[] = product.amenities.map((amenity, idx) => ({
+        id: `amenity-${idx}`,
+        text: amenity,
+    }))
+
+    // const tagsForComponent = product.amenities || [];
 
     return (
         <> {/* Or your main <Layout> component */}
@@ -117,7 +131,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                     <div className="col-lg-5 col-md-12 product-details-column">
                         <ProductInfo
                             title={product.title}
-                            tags={tagsForComponent}
+                            tags={product.amenities}
                             price={product.price.amount.toLocaleString()} // Format the price nicely
                             location={`${product.location.street}, ${product.location.city}`}
                         />
@@ -144,18 +158,19 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                         {/*
               AmenitiesGrid would also need a mapping from product.features.
               For now, let's assume it's covered by the tags in ProductInfo.
-              <AmenitiesGrid amenities={...} />
-            */}
+              */}
+              <AmenitiesGrid amenities={amenitiesForGrid} />
+
                     </div>
                 </div>
 
                 {/* Product Description Section */}
-                {product.description && product.features && (
+                {product.description && product.amenities && (
                     <div className="mt-4 mt-lg-5">
                         <ProductDescription
                             initialText={product.description}
                             fullText={product.description}
-                            keyFeatures={product.features}
+                            keyFeatures={product.amenities}
                         />
                     </div>
                 )}

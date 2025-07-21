@@ -20,13 +20,16 @@
         "depd": "^2.0.0",
         "dotenv": "^16.0.3",
         "ee-first": "^1.1.1",
-        "express": "^4.18.2",
+        "express": "^5.1.0",
+        "force": "^0.0.3",
         "fs": "^0.0.1-security",
         "is-extglob": "^2.1.1",
         "mongoose": "^6.9.2",
         "morgan": "^1.10.0",
         "nodemon": "^3.1.10",
-        "path": "^0.12.7"
+        "os": "^0.1.2",
+        "path": "^0.12.7",
+        "path-to-regexp": "^8.2.0"
     },
     "devDependencies": {
         "run-rs": "^0.7.7",

@@ -1,53 +1,56 @@
-import express from 'express';
+// const https = require('https')
+import app from './app.js';
+import { connectDatabase } from './mongodb/connect.js';
 import dotenv from 'dotenv';
-import cors from 'cors';
-import morgan from 'morgan';
-import fs from 'fs';
-import path from 'path';
+// import cloudinary from 'cloudinary';
+// import os from 'os';
+// import fs from 'fs';
+
+dotenv.config({ path: "config.env" })
+
+const port = process.env.PORT || 3001;
+
+//Handling uncaught exceptions
+process.on('uncaughtException', async err => {
+    console.log(`ERROR: ${err.message}`);
+    console.log("Shutting down the server due to unhandled exception");
+    process.exit(1)
+})
 
 
-import connectDB from './mongodb/connect.js';
-import AdminRouter from './routes/admin.routes.js';
-import propertyRouter from './routes/property.routes.js';
-import pagesRouter from './routes/pages.routes.js';
 
+// HTTPS configurations
+// const _homedir = os.homedir();
+// const key = fs.readFileSync(_homedir+'/ssl-cert/localhost-key.pem','utf-8')
+// const cert = fs.readFileSync(_homedir+'/ssl-cert/localhost.pem','utf-8')
 
-dotenv.config({ path: "config.env" });
+// const parameters = {
+//     key,
+//     cert
+//   }
 
-const app = express();
+// Connect to Database
+connectDatabase();
 
-app.use(morgan('dev', {
-    // skip: function(req, res) { return res.statusCode < 400 }
-}))
+// Cloudinary configuration
+// cloudinary.config({
+//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//     api_key: process.env.CLOUDINARY_API_KEY,
+//     api_secret: process.env.CLOUDINARY_API_SECRET
+// });
 
-var pwd = path.dirname("");
-// log all requests to access.log
-app.use(morgan('common', {
-    stream: fs.createWriteStream(path.join(pwd, 'logs/access.log'), { flags: 'a' })
-}))
+const server = app.listen(port, () => {
+    console.log(`Server started on PORT: ${port} in ${process.env.NODE_ENV} mode.`)
+})
 
-app.use(cors());
-app.options("*", cors());
-app.use(express.json({ limit: '50mb' }));
+server.keepAliveTimeout = 120 * 1000;
+server.headersTimeout = 120 * 1000;
 
-
-app.get('/', (req, res) => {
-    res.send({ message: 'Backend is running' });
-});
-
-app.use('/api/v1/Admins', AdminRouter);
-app.use('/api/v1/properties', propertyRouter);
-app.use('/api/v1/pages', pagesRouter);
-
-
-const startServer = async() => {
-    try {
-        connectDB(process.env.MONGODB_CLUSTER_URI);
-
-        app.listen(8080, () => console.log('Server is running on port http://localhost:8080'));
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-startServer();
+//Handling unhandled Promise Rejections
+process.on('unhandledRejection', err => {
+    console.log(`ERROR: ${err.message}`);
+    console.log("Shutting down the server due to unhandled Promise rejection");
+    server.close(() => {
+        process.exit(1)
+    });
+})
