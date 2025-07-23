@@ -69,7 +69,7 @@ const PropertyShowcaseCarousel = ({ slides = slidesData }) => {
             {/* Slides */}
             <div className="carousel-inner">
                 {slides.map((slide, index) => (
-                    <div key={slide.id} className={`carousel-item data-bs-interval="500" ${index === 0 ? 'active' : ''}`}>
+                    <div key={slide.id} className={`carousel-item ${index === 0 ? 'active' : ''}`} data-bs-interval="1000">
                         {/* Background Image with Dark Overlay */}
                         <div className="showcase-slide-image-container">
                             <Image

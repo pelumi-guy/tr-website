@@ -79,7 +79,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ galleryImages }) => {
             ref={galleryRef}
             items={imagesForGallery}
             showThumbnails={false} // IMPORTANT: We are building our own thumbnails
-            showPlayButton={false} // Disable default play/pause
+            showPlayButton={true}
             showFullscreenButton={false}
             showBullets={true} // Keep bullets for a nice indicator
             onSlide={(index) => setCurrentImageIndex(index)} // Update our active index state

@@ -9,6 +9,8 @@ import path from 'path';
 import AdminRouter from './routes/admin.routes.js';
 import propertyRouter from './routes/property.routes.js';
 import pagesRouter from './routes/pages.routes.js';
+import errorMiddleware from './middlewares/errorMiddleware.js';
+import ErrorHandler from './utils/errorHandler.js';
 
 
 dotenv.config({ path: "config.env" });
@@ -38,13 +40,14 @@ app.use('/api/v1/admins', AdminRouter);
 app.use('/api/v1/properties', propertyRouter);
 app.use('/api/v1/pages', pagesRouter);
 
+
 // Serve frontend static files
 if (JSON.stringify((process.env.NODE_ENV).trim()) === JSON.stringify("PRODUCTION") ||
     process.env.NODE_ENV === "production") {
 
     app.use(express.static('./build'));
 
-    app.get(/(.*)/, (req, res) => {
+    app.get('/admin-dashboard', (req, res) => {
         const cwd = process.cwd()
         res.sendFile(cwd + '/build/index.html');
     })
@@ -55,6 +58,12 @@ if (JSON.stringify((process.env.NODE_ENV).trim()) === JSON.stringify("PRODUCTION
     //     res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'));
     // })
 }
+
+app.get(/(.*)/, (req, res, next) => {
+    next(new ErrorHandler(`Can't find ${req.originalUrl} on this server!`, 404));
+})
+
+app.use(errorMiddleware);
 
 // const startServer = async() => {
 //     try {

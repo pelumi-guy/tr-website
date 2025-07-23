@@ -75,3 +75,7 @@ export interface IProperty {
   isFeatured?: boolean;
   viewCount?: number;
 }
+
+export interface IPropertiesCount {
+  count: number
+}

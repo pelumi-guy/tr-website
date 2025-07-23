@@ -20,7 +20,7 @@ $theme-colors: ( "primary": $primary, "secondary": $secondary, "black": $black, 
 $grid-breakpoints: ( xs: 0, sm: 576px, // sm: 385px,
 md: 768px, lg: 992px, xl: 1200px, xxl: 1440px, ) !default;
 // Grid containers
-$container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1200px, ) !default;
+$container-max-widths: ( sm: 540px, md: 768px, lg: 960px, xl: 1200px, ) !default;
 // Spacing
 $spacer: 1rem;
 $spacers: ( 0: 0, 1: $spacer * 0.25, 2: $spacer * 0.5, 3: $spacer, 4: $spacer * 1.5, 5: $spacer * 3, 6: $spacer * 4, );

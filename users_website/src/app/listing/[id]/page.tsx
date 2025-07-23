@@ -19,7 +19,7 @@ import AmenitiesGrid, { Amenity } from '@/components/user/listing/AmenitiesGrid'
 
 // --- DATA FETCHING FUNCTION ---
 // This function uses native fetch, allowing Next.js to cache and deduplicate requests.
-async function getProductDetails(id: string): Promise<IProperty | null> {
+async function getListingDetails(id: string): Promise<IProperty | null> {
     try {
         // Construct the full URL. Use environment variables for your API base URL.
         const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8080';
@@ -32,22 +32,21 @@ async function getProductDetails(id: string): Promise<IProperty | null> {
 
         // If the request itself fails (e.g., network error, 404 from API), handle it.
         if (!res.ok) {
-            console.error(`API Error: Failed to fetch product ${id}, status: ${res.status}`);
+            console.error(`API Error: Failed to fetch listing ${id}, status: ${res.status}`);
             return null;
         }
 
         const responseData = await res.json();
-        console.log("responseData:", responseData);
 
         // Check for the success flag from your API's response structure.
         if (!responseData.success) {
-            console.warn(`API responded with success=false for product ${id}`);
+            console.warn(`API responded with success=false for listing ${id}`);
             return null;
         }
 
         return responseData.data as IProperty;
     } catch (error) {
-        console.error(`Exception during fetch for product ${id}:`, error);
+        console.error(`Exception during fetch for listing ${id}:`, error);
         return null;
     }
 }
@@ -60,7 +59,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     const resolvedParams = await params;
     const id = resolvedParams.id;
-    const product = await getProductDetails(id); // Re-uses the fetch function
+    const product = await getListingDetails(id); // Re-uses the fetch function
 
     if (!product) {
         return {
@@ -87,12 +86,10 @@ export async function generateMetadata(
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
     const resolvedParams = await params;
     const id = resolvedParams.id;
-    const product = await getProductDetails(id); // Next.js automatically deduplicates this call
-
-    console.log("product:", product);
+    const product = await getListingDetails(id);
 
     if (!product) {
-        notFound(); // Triggers the not-found.tsx page
+        notFound();
     }
 
     // --- Data Transformation for Child Components ---
@@ -143,7 +140,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                         {product.creator && (
                             <AgentCard
                                 agentName={`${product.creator.name}`}
-                                agentTitle="Lead Agent" // You might need to add this to your creator object
+                                agentTitle={`Lead Agent — ${product.agency.name}`}
                                 agentImageUrl={product.creator.avatar || '/images/default_avatar.jpg'}
                                 rating={4.5} // This data needs to come from your API
                             />
