@@ -102,6 +102,9 @@ export const getPropertiesCountForExplorePage = async(req, res) => {
  * @access  Public
  */
 export const getPropertiesForExplore = async(req, res) => {
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 1) || 1;
+
     // 1. Get the total count of documents that match the category filter for pagination.
     // We create a separate, lean query just for counting.
     const countFeatures = new APIFeatures(Property.find(), req.query)
@@ -128,8 +131,9 @@ export const getPropertiesForExplore = async(req, res) => {
             pagination: {
                 total: totalCount,
                 // You can add more pagination info here if needed
-                limit: parseInt(req.query.limit, 10) || 10,
-                page: parseInt(req.query.page, 1) || 1,
+                limit: limit,
+                page: page,
+                totalPages: Math.floor(totalCount / limit)
             }
         }
     });

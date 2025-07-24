@@ -79,3 +79,15 @@ export interface IProperty {
 export interface IPropertiesCount {
   count: number
 }
+
+export interface IPagination {
+  total: number;
+  limit: number;
+  page: number;
+  totalPages: number
+}
+
+export interface IPaginatedProperties {
+  properties: Array<IProperty>;
+  pagination: IPagination;
+}

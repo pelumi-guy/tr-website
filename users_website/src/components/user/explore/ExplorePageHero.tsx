@@ -77,14 +77,11 @@ const ExplorePageHero = () => {
     fetchCounts();
   }, []);
 
-  const renderListingCount = () => {
-    if (isLoading) {
-      return <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>;
-    }
+  const getListingCount = () : string => {
     if (error || !propertiesCount) {
       return '99+';
     }
-    return propertiesCount;
+    return propertiesCount.count.toString();
   };
 
   return (
@@ -115,7 +112,7 @@ const ExplorePageHero = () => {
               {isLoading ? (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>)
                 :
                 (<div className="hero-subtitle-link d-inline-flex align-items-center fs-4 mt-0 mt-lg-2">
-                  {subTitlePrefix} {propertiesCount?.count} {subTitleSuffix}
+                  {subTitlePrefix} {getListingCount()} {subTitleSuffix}
                   &nbsp;&nbsp;
                   <Image src={icons.RightUpArrow} alt='right up arrow' className='' />
                 </div>)
