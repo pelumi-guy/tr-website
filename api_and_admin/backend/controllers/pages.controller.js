@@ -122,6 +122,7 @@ export const getPropertiesForExplore = async(req, res) => {
 
     // Execute the final query
     const properties = await features.query;
+    const { category, value } = req.query;
 
     res.status(200).json({
         status: 'success',
@@ -130,11 +131,12 @@ export const getPropertiesForExplore = async(req, res) => {
             properties,
             pagination: {
                 total: totalCount,
-                // You can add more pagination info here if needed
                 limit: limit,
                 page: page,
                 totalPages: Math.floor(totalCount / limit)
-            }
+            },
+            category,
+            value
         }
     });
 };

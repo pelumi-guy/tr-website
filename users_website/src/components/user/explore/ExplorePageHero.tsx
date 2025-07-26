@@ -9,6 +9,11 @@ import httpClient from '@/services/httpClient';
 import { icons, images } from '@/exports/images';
 import { IPropertiesCount, IProperty } from '@/types/property';
 
+
+interface IExplorePageHeroProps {
+  handleExplore: (category: string, value: string, page: number, limit: number) => void;
+}
+
 // Sample data for location cards - pass as props or fetch
 const locationTeasers = [
   { id: 1, title: 'Ajah', description: 'Explore Ajah...', link: '/explore/ajah' },
@@ -43,7 +48,9 @@ async function getListingsCount(): Promise<IPropertiesCount | null> {
   }
 }
 
-const ExplorePageHero = () => {
+const ExplorePageHero = ({
+  handleExplore
+} : IExplorePageHeroProps ) => {
   const backgroundImageUrl = "/images/PropertyImagePlaceholder2.png";
   const subTitlePrefix = "Discover all";
   const listingCount = 99;
@@ -95,7 +102,7 @@ const ExplorePageHero = () => {
         <div className="container-fluid h-100 d-flex flex-column"> {/* Use container-fluid for full-width content alignment */}
 
           {/* Main Hero Content - Takes up remaining space and centers its content */}
-          <div className="hero-main-content flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center text-white mt-lg-3" data-aos="fade-down" data-aos-ease="ease-in" data-aos-duration="500">
+          <div className="hero-main-content flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center text-white mt-lg-3" data-aos="slide-up" data-aos-ease="ease-in" data-aos-duration="1000">
             <h1 className="hero-title">
               <strong className="text-slider">
                 <ReactTyped
@@ -108,7 +115,9 @@ const ExplorePageHero = () => {
               </strong>
             </h1>
             {/* <h1 className="display-1 fw-bold hero-title">{mainTitle}</h1> */}
-            <Link href="/explore-listings" >
+            <Link href="#explore-categories"
+            onClick={() => handleExplore("status", "available", 1, 3)}
+            >
               {isLoading ? (<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>)
                 :
                 (<div className="hero-subtitle-link d-inline-flex align-items-center fs-4 mt-0 mt-lg-2">

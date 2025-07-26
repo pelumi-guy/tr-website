@@ -9,7 +9,7 @@ const PropertyCardDisplay = ({ id, imageUrl, price, beds, baths, title, livingro
 
   return (
 
-    <div className="card shadow-sm property-card mb-4 my-md-2 mx-4 mx-md-2 px-0" style={{ maxWidth: '20rem' }} data-aos="flip-left" data-aos-ease="liner" data-aos-duration="1200">
+    <div className="card shadow-sm property-card mb-4 my-md-2 mx-4 mx-md-2 px-0" style={{ maxWidth: '20rem' }} data-aos="flip-left" data-aos-ease="ease" data-aos-duration="1500">
       <Link href={`/listing/${id}`}>
         <div className="card-image-container position-relative d-flex justify-content-center">
           <Image

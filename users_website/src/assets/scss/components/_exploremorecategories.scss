@@ -62,6 +62,69 @@
     }
 }
 
+// SCSS for the circular back button
+.back-button-circle {
+    // --- Step 1: Reset Bootstrap's default button styles ---
+    padding: 0;
+    background: transparent;
+    border: none;
+    // Remove Bootstrap's blue box-shadow on focus
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: none !important;
+    }
+    // --- Step 2: Define the circular shape and size ---
+    // The icon is 40px, so we make the button slightly larger for padding.
+    // width: 52px;
+    // height: 52px;
+    border-radius: 50%; // This makes it a perfect circle.
+    // --- Step 3: Add a custom border and transitions ---
+    // Use a variable for the border color, e.g., your $light or $second-light
+    border: 2px solid $second-light;
+    // Add smooth transitions for all changes (background, transform, border-color)
+    transition: all 0.25s ease-in-out;
+    // --- Step 4: Center the icon perfectly ---
+    display: inline;
+    align-items: center;
+    justify-content: center;
+    // --- Step 5: Style the SVG icon inside ---
+    svg {
+        // The icon should inherit its color from the button's text color property
+        color: $black; // Use your $black variable
+        transition: color 0.25s ease-in-out, transform 0.25s ease-in-out;
+    }
+    // --- Step 6: Create the interactive :hover state ---
+    &:hover {
+        // Change background and border color for feedback
+        background-color: $light; // Your light gray background variable
+        border-color: $muted; // A slightly darker border on hover
+        // Give the button a subtle "lift" effect
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba($black, 0.1); // Add a soft shadow
+        // Change the icon's color on hover
+        svg {
+            color: $lightBlue; // Your primary blue color
+        }
+    }
+    // --- Step 7: Create the interactive :active (click) state ---
+    &:active {
+        // Make the button feel like it's being pressed down
+        transform: translateY(0px) scale(0.95);
+        box-shadow: 0 2px 6px rgba($black, 0.12); // A smaller shadow when pressed
+        // We can also make the icon "react" to the click
+        svg {
+            transform: scale(0.9);
+        }
+    }
+    // --- Step 8: Add an accessible focus ring for keyboard navigation ---
+    &:focus-visible {
+        // This style only appears when a user is tabbing with a keyboard
+        outline: 2px solid $lightBlue;
+        outline-offset: 2px;
+    }
+}
+
 // Responsive adjustments
 @include media-breakpoint-down(md) {
     .explore-categories-section {

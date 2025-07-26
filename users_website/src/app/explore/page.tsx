@@ -7,12 +7,13 @@ import httpClient from '@/services/httpClient';
 import ExplorePageHero from '@/components/user/explore/ExplorePageHero';
 import ExploreMoreCategories from '@/components/user/explore/ExploreMoreCategories';
 import { IPaginatedProperties } from '@/types/property';
+import useUpdateEffect from '@/hooks/useUpdateEffect';
 
 // Updated fetch function to accept a page number
-async function getExploreListings(page: number): Promise<IPaginatedProperties | null> {
+async function getExploreListings(category: string, value: string, page: number, limit: number): Promise<IPaginatedProperties | null> {
   try {
       // Append the page number as a query parameter
-      const url = `/api/v1/pages/explore?page=${page}`;
+      const url = `/api/v1/pages/explore?category=${category}&value=${value}&page=${page}&limit=${limit}`;
       const response = await httpClient.get(url);
 
       if (response.data && response.data.status === "success") {
@@ -27,17 +28,25 @@ async function getExploreListings(page: number): Promise<IPaginatedProperties | 
   }
 }
 
+
+
 const Explore = () => {
   const [paginatedProperties, setPaginatedProperties] = useState<IPaginatedProperties | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1); // <-- State for current page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(1);
+  const [category, setCategory] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
+  const [showListings, setShowListings] = useState(false);
 
-  useEffect(() => {
+
+
+  useUpdateEffect(() => {
     const fetchListings = async () => {
         try {
             setIsLoading(true);
-            const data = await getExploreListings(currentPage); // <-- Pass current page
+            const data = await getExploreListings(category, categoryValue, currentPage, limit);
             if (data) {
               setPaginatedProperties(data);
             } else {
@@ -52,7 +61,9 @@ const Explore = () => {
     };
 
     fetchListings();
-  }, [currentPage]); // <-- Add currentPage to dependency array to re-fetch on change
+  }, [currentPage, limit, category, categoryValue]);
+
+
 
   // Callback function for react-paginate
   const handlePageChange = (selectedItem: { selected: number }) => {
@@ -62,14 +73,27 @@ const Explore = () => {
     window.scrollTo(0, 0); // Optional: scroll to top on page change
   };
 
+  const handleExplore = (category: string, value: string, page: number, limit: number) => {
+    setCategory(category);
+    setCategoryValue(value);
+    setCurrentPage(page);
+    setLimit(limit);
+    setShowListings(true);
+  }
+
+
+
   return (
     <main>
-      <ExplorePageHero />
+      <ExplorePageHero handleExplore={handleExplore}/>
       <ExploreMoreCategories
         listings={paginatedProperties}
         isLoading={isLoading}
         currentPage={currentPage}
         handlePageChange={handlePageChange}
+        setListings={setPaginatedProperties}
+        showListings={showListings}
+        setShowListings={setShowListings}
       />
     </main>
   );

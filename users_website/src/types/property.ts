@@ -89,5 +89,7 @@ export interface IPagination {
 
 export interface IPaginatedProperties {
   properties: Array<IProperty>;
+  category: string;
+  value: string;
   pagination: IPagination;
 }

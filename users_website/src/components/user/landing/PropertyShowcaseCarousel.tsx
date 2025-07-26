@@ -48,7 +48,7 @@ const PropertyShowcaseCarousel = ({ slides = slidesData }) => {
             className="position-relative"
             data-aos="fade-down"
             data-aos-ease="ease-in"
-            data-aos-duration="500"
+            data-aos-duration="1000"
             data-aos-once
         >
             {/*
