@@ -15,16 +15,18 @@ const SimilarListings = () => {
         propertySubtype: 'Detached Duplex',
         location: { street: '123 Admiralty Way', city: 'Lekki', state: 'Lagos', country: 'Nigeria' },
         price: { amount: 350000000, currency: 'NGN' },
-        details: { bedrooms: 5, bathrooms: 5, toilets: 6, parkingSpaces: 4, livingrooms: 5},
-        area: { total: 650, unit: 'sqm'},
+        details: { bedrooms: 5, bathrooms: 5, toilets: 6, parkingSpaces: 4, livingrooms: 5 },
+        area: { total: 650, unit: 'sqm' },
         photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png'],
         isFeatured: true,
         status: 'Available',
-        features: ['elevator', 'gym'],
-        creator: "01",
-        agency: "01",
+        amenities: ['elevator', 'gym'],
+        // creator: "01",
+        // agency: "01",
         createdAt: "01-01-1970",
-        updatedAt: "01-01-1970"
+        updatedAt: "01-01-1970",
+        creator: undefined,
+        agency: undefined
     },
     {
         _id: "2",
@@ -40,11 +42,13 @@ const SimilarListings = () => {
         photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png'],
         isFeatured: true,
         status: 'Available',
-        features: ['elevator', 'gym'],
-        creator: "01",
-        agency: "01",
+        amenities: ['elevator', 'gym'],
+        // creator: "01",
+        // agency: "01",
         createdAt: "01-01-1970",
-        updatedAt: "01-01-1970"
+        updatedAt: "01-01-1970",
+        creator: undefined,
+        agency: undefined
     },
     {
         _id: "3",
@@ -59,11 +63,13 @@ const SimilarListings = () => {
         photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570979/Transcendent_Realty/Sample_Images/SemiDetachedPlaceholder_cxff1j.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570979/Transcendent_Realty/Sample_Images/SemiDetachedPlaceholder_cxff1j.png'],
         isFeatured: false,
         status: 'Available',
-        features: ['elevator', 'gym'],
-        creator: "01",
-        agency: "01",
+        amenities: ['elevator', 'gym'],
+        // creator: "01",
+        // agency: "01",
         createdAt: "01-01-1970",
-        updatedAt: "01-01-1970"
+        updatedAt: "01-01-1970",
+        creator: undefined,
+        agency: undefined
     },
     {
         _id: "4",
@@ -74,16 +80,18 @@ const SimilarListings = () => {
         propertySubtype: 'Detached Triplex',
         location: { street: 'Lekki County', city: 'Ajah', state: 'Lagos', country: 'Nigeria' },
         price: { amount: 400000000, currency: 'NGN' },
-        details: { bedrooms: 6, bathrooms: 4, toilets: 7, parkingSpaces: 4, livingrooms: 6},
+        details: { bedrooms: 6, bathrooms: 4, toilets: 7, parkingSpaces: 4, livingrooms: 6 },
         area: { total: 750, unit: 'sqm' },
         photos: ['https://res.cloudinary.com/do5lofza7/image/upload/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1751570976/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder_ousfbr.png', 'https://res.cloudinary.com/do5lofza7/image/upload/v1751570981/Transcendent_Realty/Sample_Images/PropertyImagePlaceholder2_jn6xcq.png'],
         isFeatured: true,
         status: 'Available',
-        features: ['elevator', 'gym'],
-        creator: "01",
-        agency: "01",
+        amenities: ['elevator', 'gym'],
+        // creator: "01",
+        // agency: "01",
         createdAt: "01-01-1970",
-        updatedAt: "01-01-1970"
+        updatedAt: "01-01-1970",
+        creator: undefined,
+        agency: undefined
     }
 ];
 

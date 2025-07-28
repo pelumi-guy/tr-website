@@ -19,8 +19,7 @@
     }
     // Ensure content is above overlay
     .container-fluid,
-    .hero-main-content,
-    .location-teasers-container {
+    .hero-main-content {
         position: relative;
         z-index: 2;
     }
@@ -46,6 +45,8 @@
 .location-teasers-container {
     transform: translate(0%, -50%);
     padding: 0rem 1rem 0rem 1rem;
+    position: relative;
+    z-index: 2;
     .location-teaser-card {
         background-color: $white; // Or $secondary if that's your light card background
         color: $textBlack;
@@ -54,6 +55,7 @@
         box-shadow: 0 4px 15px rgba($black, 0.1);
         transition: $all-transition;
         min-height: 100px;
+        max-width: 250px;
         /* Ensure cards have some minimum height */
         display: flex;
         flex-direction: column;
@@ -81,7 +83,7 @@
                 font-size: 5rem;
             }
             .hero-subtitle-link {
-                font-size: $mobile-h3; // Use your mobile heading sizes
+                font-size: $mobile-h3;
             }
         }
     }
@@ -136,6 +138,9 @@
 }
 
 @media (max-width: 768px) {
+    .hero-subtitle-link {
+        font-size: $mobile-h4;
+    }
     .hero-main-content {
         .hero-title {
             font-size: 2.5rem;

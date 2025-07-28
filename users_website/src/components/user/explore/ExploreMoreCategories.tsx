@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { IPaginatedProperties } from '@/types/property';
 import ReactPaginate from 'react-paginate';
 import PropertyCard from '../fragments/PropertyCard';
+import EmptyStateMessage from '../fragments/EmptyStateMessage';
 
 import { FaArrowCircleLeft } from 'react-icons/fa';
 
@@ -15,13 +16,13 @@ const getHeader = (listings: IPaginatedProperties) => {
 
   // Determine the message template based on the category
   if (value.toLowerCase() === "available") {
-    headerText = "Browse All Available Properties"
+    headerText = "Browse All Available Property Listings"
   }
   else if (['location.city', 'location.state'].includes(listings.category)) {
-    headerText = `Browse Available Properties that are in ${value}`;
+    headerText = `Browse Available Property Listings that are in ${value}`;
   } else {
-    const pluralS = value.toLowerCase() === 'smart homes' ? 's' : '';
-    headerText = `Browse Available Properties that are ${value}${pluralS}`;
+    const pluralS = value.toLowerCase() === 'smart home' ? 's' : '';
+    headerText = `Browse Available Property Listings that are ${value}${pluralS}`;
   }
 
   return (
@@ -38,21 +39,21 @@ const categoriesData = [
     label: 'SMART HOMES',
     imageUrl: '/images/SmartHomesPlaceholder.png',
     altText: 'Smart home technology interface',
-    link: '/categories/smart-homes',
+    category: 'Smart Home',
   },
   {
     id: 2,
     label: 'SEMI DETACHED',
     imageUrl: '/images/SemiDetachedPlaceholder.png',
     altText: 'Modern semi-detached house',
-    link: '/categories/semi-detached',
+    category: 'Semi-Detached',
   },
   {
     id: 3,
     label: 'FULLY DETACHED',
     imageUrl: '/images/FullyDetachedPlaceholder.png',
     altText: 'Luxurious fully detached villa',
-    link: '/categories/fully-detached',
+    category: 'Fully Detached'
   },
 ];
 
@@ -64,7 +65,8 @@ interface IExploreMoreCategoriesProps {
   handlePageChange: (selectedItem: { selected: number }) => void;
   setListings: React.Dispatch<React.SetStateAction<IPaginatedProperties | null>>;
   showListings: boolean;
-  setShowListings: React.Dispatch<React.SetStateAction<boolean>>
+  setShowListings: React.Dispatch<React.SetStateAction<boolean>>,
+  handleExplore: (category: string, value: string, page: number, limit: number) => void;
 }
 
 const ExploreMoreCategories = ({
@@ -74,12 +76,14 @@ const ExploreMoreCategories = ({
   handlePageChange,
   setListings,
   showListings,
-  setShowListings
+  setShowListings,
+  handleExplore
 
 }: IExploreMoreCategoriesProps) => {
   const title = "Explore more categories";
   const subtitle = "View various listing categories...";
   const categories = categoriesData;
+  const limit = 12;
 
   const renderContent = () => {
     if (isLoading) {
@@ -92,20 +96,37 @@ const ExploreMoreCategories = ({
     }
 
     if (listings?.properties && showListings) {
+      if (listings?.properties.length === 0) {
+        return (
+          <>
+            <button className='back-button-circle' type='button'
+              onClick={() => setShowListings(false)}
+            >
+              <FaArrowCircleLeft size={35} className="text-black p-0" />
+            </button> &nbsp;
+            <span className='lead text-muted'>Go back to explore more categories</span>
+
+            <EmptyStateMessage
+              title="No Properties Found"
+              message="Nothing here just yet! Try checking out another category or location."
+            />
+          </>
+        );
+      }
       // --- Render Paginated Properties ---
       return (
-        <>
+        <div >
           {getHeader(listings)}
           <button className='back-button-circle' type='button'
             onClick={() => setShowListings(false)}
           >
             <FaArrowCircleLeft size={35} className="text-black p-0" />
           </button> &nbsp;
-          <span className='lead text-muted'>Go back to explore more categories</span>
+          <span className='lead text-muted my-3 my-md-0'>Go back to explore more categories</span>
 
           <div className="row g-4">
             {listings.properties.map((property) => (
-              <div key={property._id} className="col-12 col-sm-6 col-lg-4 d-flex align-items-stretch">
+              <div key={property._id} className="col-12 col-sm-6 col-lg-4 d-flex  justify-content-center justify-content-md-between">
                 <PropertyCard property={property} />
               </div>
             ))}
@@ -134,7 +155,7 @@ const ExploreMoreCategories = ({
               forcePage={currentPage - 1} // 0-indexed current page
             />
           )}
-        </>
+        </div>
       );
     }
 
@@ -150,7 +171,12 @@ const ExploreMoreCategories = ({
         <div className="row g-5 justify-content-center">
           {categories.map((category) => (
             <div key={category.id} className="col-12 col-md-6 col-lg-4 d-flex" data-aos="flip-right" data-aos-ease="ease-in" data-aos-duration="1500">
-              <Link href={category.link} className="card category-card text-decoration-none w-100">
+              <Link href={'#explore-categories'} className="card category-card text-decoration-none w-100"
+                onClick={() => {
+                  if (category.category === 'Smart Home') handleExplore("amenities", category.category, 1, limit);
+                  else handleExplore("propertySubtype", category.category, 1, limit);
+                }}
+              >
                 <div className="category-card-image-wrapper">
                   <Image
                     src={category.imageUrl}
@@ -174,7 +200,7 @@ const ExploreMoreCategories = ({
   };
 
   return (
-    <section className="explore-categories-section py-5" id='explore-categories'>
+    <section className="explore-categories-section py-5 mt-lg-0" id='explore-categories'>
       <div className="container" style={{ maxWidth: '1200px' }}>
 
         {renderContent()}

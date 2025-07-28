@@ -47,6 +47,7 @@ const Explore = () => {
         try {
             setIsLoading(true);
             const data = await getExploreListings(category, categoryValue, currentPage, limit);
+            console.log("currentPage:", currentPage);
             if (data) {
               setPaginatedProperties(data);
             } else {
@@ -70,7 +71,7 @@ const Explore = () => {
     // react-paginate is 0-indexed, our API is likely 1-indexed
     const newPage = selectedItem.selected + 1;
     setCurrentPage(newPage);
-    window.scrollTo(0, 0); // Optional: scroll to top on page change
+    window.scrollTo(0, 559);
   };
 
   const handleExplore = (category: string, value: string, page: number, limit: number) => {
@@ -94,6 +95,7 @@ const Explore = () => {
         setListings={setPaginatedProperties}
         showListings={showListings}
         setShowListings={setShowListings}
+        handleExplore={handleExplore}
       />
     </main>
   );

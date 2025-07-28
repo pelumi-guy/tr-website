@@ -128,7 +128,7 @@
 // Responsive adjustments
 @include media-breakpoint-down(md) {
     .explore-categories-section {
-        margin-top: 3rem;
+        margin-top: 10rem;
         .category-card {
             min-height: 350px; // Slightly smaller cards on tablet
         }

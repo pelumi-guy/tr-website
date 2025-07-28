@@ -1,0 +1,24 @@
+// _emptystate.scss
+// Make sure your _variables.scss is available
+.empty-state-message {
+    // Container styling
+    background-color: transparent; // Or a very light color like $lightOrange
+    border: 2px dashed $second-light; // Use a light, dashed border
+    border-radius: $border-radius-xl; // A larger border radius for a softer look
+    padding: 3rem 1.5rem; // Generous padding to take up space
+    margin-top: 2rem; // Space from any filters/headings above
+    .empty-state-icon {
+        // Icon styling
+        color: $muted; // A muted color for the icon
+        opacity: 0.8;
+    }
+    .empty-state-title {
+        // Title styling
+        color: $textBlack;
+    }
+    .empty-state-text {
+        // Message/paragraph styling
+        line-height: 1.6;
+        max-width: 480px; // Constrain the line length for better readability
+    }
+}
