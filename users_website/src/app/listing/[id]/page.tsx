@@ -28,7 +28,6 @@ async function getListingDetails(id: string): Promise<IProperty | null> {
         // Use fetch with 'no-store' to mimic getServerSideProps (dynamic on every request).
         // For static pages, you would omit this or use `cache: 'force-cache'`.
         const res = await fetch(url, { cache: 'no-store' });
-        console.log("url:", url);
 
         // If the request itself fails (e.g., network error, 404 from API), handle it.
         if (!res.ok) {
@@ -59,7 +58,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     const resolvedParams = await params;
     const id = resolvedParams.id;
-    const product = await getListingDetails(id); // Re-uses the fetch function
+    const product = await getListingDetails(id);
 
     if (!product) {
         return {

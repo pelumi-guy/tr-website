@@ -1,0 +1,4 @@
+propertySubtype (catories)
+- Smart Home <Duplex | Triplex>
+- Semi-Detached <Duplex | Triplex>
+- Fully Detached <Duplex | Triplex>

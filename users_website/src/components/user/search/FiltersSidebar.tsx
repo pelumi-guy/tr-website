@@ -1,3 +1,5 @@
+'use client'
+
 // components/FiltersSidebar.tsx
 import React, { useState } from 'react';
 import { Form, Badge } from 'react-bootstrap'; // Using react-bootstrap for form controls

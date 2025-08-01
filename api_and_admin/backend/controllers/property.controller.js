@@ -142,7 +142,47 @@ const deleteProperty = async(req, res) => {
 
 
 // My Methods
-const getProperties = async(req, res, next) => {
+const searchProperties = async(req, res, next) => {
+    // --- AI-Powered Search Integration ---
+    const searchString = req.query.search;
+
+    let keywordsForQuery = { keywords: searchString.split(" ").join(",") };
+    console.log('searchString:', searchString);
+
+    // if (searchString) {
+    //     // In a real app, this would be an async call to your LLM service
+    //     const extractedKeywords = await getKeywordsFromLLM(searchString); // e.g., ['5 bedroom', 'duplex', 'pool', 'lekki']
+
+    //     // Prepare the keywords for the APIFeatures class
+    //     if (extractedKeywords && extractedKeywords.length > 0) {
+    //         keywordsForQuery = { keywords: extractedKeywords.join(',') };
+    //     }
+    // }
+
+    // --- Execute the API Features ---
+    const features = new APIFeatures(Property.find(), {...req.query, ...keywordsForQuery })
+        .search() // Handles multi-keyword search
+        .filter() // Handles price[gte], details.bedrooms=5, etc.
+        .sort() // Handles sort=-price,createdAt
+        .limitFields() // Handles fields=title,price
+        .paginate(); // Handles page=2&limit=10
+
+    // Execute the final query
+    const properties = await features.query;
+
+    // TODO: You might want to get a total count for pagination on the frontend
+    // const total = await Property.countDocuments(features.query.getFilter());
+
+    res.status(200).json({
+        status: 'success',
+        results: properties.length,
+        data: {
+            properties,
+        },
+    });
+};
+
+const searchPropertiesWithLLM = async(req, res, next) => {
     // --- AI-Powered Search Integration ---
     const searchString = req.query.search; // e.g., "5 bedroom duplex with a pool in lekki"
 
@@ -244,11 +284,12 @@ const getPropertiesCount = async(req, res, next) => {
 
 export {
     adminLegacyGetAllProperties,
-    getPropertyDetails as getAllPropertyDetails,
+    getPropertyDetails,
     createProperty,
     updateProperty,
     deleteProperty,
-    getProperties,
+    searchPropertiesWithLLM,
     getAllProperties,
-    getPropertiesCount
+    getPropertiesCount,
+    searchProperties
 };

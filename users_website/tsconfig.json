@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "global.d.ts", "src/components/user/listing/tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "global.d.ts", "src/components/user/listing/tsx", "next.config.mjs", "../api_and_admin/backend/utils/ObjectMap.ts"],
   "exclude": ["node_modules"]
 }

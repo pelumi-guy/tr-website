@@ -1,12 +1,13 @@
 import express from 'express';
 import {
     adminLegacyGetAllProperties,
-    getAllPropertyDetails,
+    getPropertyDetails,
     createProperty,
     updateProperty,
     deleteProperty,
     getAllProperties,
-    getPropertiesCount
+    getPropertiesCount,
+    searchProperties
 } from '../controllers/property.controller.js';
 
 const router = express.Router();
@@ -21,8 +22,11 @@ router.route('/all')
 router.route('/count')
     .get(getPropertiesCount)
 
+router.route('/search')
+    .get(searchProperties)
+
 router.route('/:id')
-    .get(getAllPropertyDetails)
+    .get(getPropertyDetails)
     .patch(updateProperty)
     .delete(deleteProperty);
 

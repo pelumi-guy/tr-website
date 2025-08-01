@@ -1,8 +1,11 @@
+
 import React from 'react';
-import PropertyCard, { Property } from '../fragments/PropertyCard';
+import PropertyCard from '../fragments/PropertyCard';
+import { Property } from '@/types/common';
+import { IProperty } from '@/types/property';
 
 interface PropertyResultsGridProps {
-  properties: Property[];
+  properties: IProperty[];
   loading?: boolean;
 }
 
@@ -30,7 +33,7 @@ const PropertyResultsGrid: React.FC<PropertyResultsGridProps> = ({ properties, l
   return (
     <div className="row g-4 property-results-grid"> {/* g-4 for gap between cards */}
       {properties.map(property => (
-        <div key={property.propertyId} className="col-12 col-md-6 col-lg-4 mx-5 d-flex align-items-between"> {/* d-flex and align-items-stretch for equal height cards */}
+        <div key={property._id} className="col-12 col-md-6 col-lg-4 mx-5 d-flex align-items-between"> {/* d-flex and align-items-stretch for equal height cards */}
           <PropertyCard property={property} />
         </div>
       ))}

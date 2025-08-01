@@ -37,7 +37,7 @@ const Header = () => {
                     </ul>
 
                     <div style={{ backgroundColor: "#f5f5f5" }}>
-                        <Search classNames='bg-black header-search' darkButton={false} />
+                        <Search classNames='bg-black header-search' headerSearch={true} darkButton={false} />
                     </div>
 
                 </div>

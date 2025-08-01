@@ -1,4 +1,5 @@
 // utils/APIFeatures.js
+import objectMap from "../utils/ObjectMap.js";
 
 class APIFeatures {
     constructor(mongooseQuery, queryString) {
@@ -31,8 +32,7 @@ class APIFeatures {
                     // Search in the 'features' array
                     { amenities: { $regex: keyword, $options: 'i' } },
                     // Search in the 'propertySubtype' field
-                    { propertySubtype: { $regex: keyword, $options: 'i' } },
-                    { propertySubtype: { $regex: subtype, $options: 'i' } },
+                    { propertySubtype: { $regex: keyword, $options: 'i' } }
                 ]
             }));
 
@@ -62,6 +62,7 @@ class APIFeatures {
                 'status',
                 'location.city',
                 'location.state',
+                'amenities'
             ];
 
             if (allowedCategories.includes(category)) {
@@ -82,21 +83,44 @@ class APIFeatures {
      * Applies advanced filtering for fields like price, bedrooms, etc.
      * Example: /api/v1/properties?price[gte]=100000&details.bedrooms[gte]=3
      */
+
+
     filter() {
         // 1. Create a shallow copy of the query string
-        const queryObj = {...this.queryString };
+        const queryCopy = {...this.queryString };
 
         // 2. Remove fields that are handled by other methods
-        const excludedFields = ['page', 'sort', 'limit', 'keywords'];
-        excludedFields.forEach(el => delete queryObj[el]);
+        const excludedFields = ['page', 'sort', 'limit', 'keywords', 'category', 'value'];
+        excludedFields.forEach(el => delete queryCopy[el]);
 
-        // 3. Convert gt, gte, lt, lte to MongoDB's $gt, $gte, etc.
-        let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`);
+        // 3. Manually build the correct MongoDB query object
+        const mongoQuery = {};
 
-        // 4. Apply the filter to the Mongoose query
-        this.query = this.query.find(JSON.parse(queryStr));
+        for (const key in queryCopy) {
+            let value = queryCopy[key];
+            console.log('key value:', value);
 
+            // This handles nested objects like `price[amount][gte]=100000`
+            // which Express parses into `{ price: { amount: { gte: '100000' } } }`
+            // if (typeof value === 'object' && value !== null && !Array.isArray(value))
+            if (key === 'price[amount][lte]') {
+                mongoQuery['price.amount'] = {
+                    ['$lte']: value
+                };
+            } else if (key === 'price[amount][gte]') {
+                mongoQuery['price.amount'] = {
+                    ['$gte']: value
+                };
+            } else {
+                // This handles simple key-value pairs like `propertyType=House`
+                mongoQuery[key] = value;
+            }
+        }
+
+        console.log("Backend filter query (Corrected):", mongoQuery);
+
+        // 4. Apply the correctly structured filter to the Mongoose query
+        this.query = this.query.find(mongoQuery);
         return this;
     }
 
@@ -136,7 +160,7 @@ class APIFeatures {
      * Example: /api/v1/properties?page=2&limit=10
      */
     paginate() {
-        const page = parseInt(this.queryString.page, 1) || 1;
+        const page = parseInt(this.queryString.page, 10) || 1;
         const limit = parseInt(this.queryString.limit, 10) || 10;
         const skip = (page - 1) * limit;
 

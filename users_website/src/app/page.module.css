@@ -174,14 +174,13 @@ a.secondary {
     background-color: var(--bg);
 }
 
-.sectionHeading {
-    h2 {
-        line-height: 29px;
-        font-weight: 600;
-    }
-    p {
-        line-height: 24px;
-    }
+.sectionHeading h2 {
+    line-height: 29px;
+    font-weight: 600;
+}
+
+.sectionHeading p {
+    line-height: 24px;
 }
 
 @media (max-width: 768px) {
