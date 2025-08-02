@@ -8,7 +8,6 @@ async function getExploreListings(): Promise<IPaginatedProperties | null> {
     try {
         const url = "/api/v1/pages/explore";
         const response = await httpClient.get(url);
-        console.log("response:", response);
 
         if (response.data && response.data.status === "success") {
             return response.data.data as IPaginatedProperties;

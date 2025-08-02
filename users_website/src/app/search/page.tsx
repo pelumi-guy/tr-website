@@ -3,13 +3,13 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import SearchPageClientWrapper from '@/components/user/search/SearchPageClientWrapper';
-import { IProperty } from '@/types/property';
+import { IPaginatedProperties, IProperty } from '@/types/property';
 import PropertyResultsGrid from '@/components/user/search/PropertyResultsGrid';
 
 // This is our server-side data fetching function
 async function getInitialSearchResults(
   searchParams: { [key: string]: string | string[] | undefined }
-): Promise<{ properties: IProperty[], totalPages: number }> {
+): Promise<IPaginatedProperties> {
 
   // Construct the query string from server-side searchParams
   const query = new URLSearchParams();
@@ -20,26 +20,22 @@ async function getInitialSearchResults(
   if (searchParams.sort) query.append('sort', searchParams.sort as string);
   if (searchParams.page) query.append('page', searchParams.page as string);
   // Add other params...
-
-  console.log("initial search query:", searchParams.search);
   const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
   // Example URL to your backend API route that handles searching
   const url = `${apiBaseUrl}/api/v1/properties/search?${query.toString()}`;
 
   try {
     // Use fetch with caching. For a search page, 'no-store' is appropriate.
-    console.log('initial url:', url);
     const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`API Error: ${res.status}`);
 
     const data = await res.json();
-    console.log('initial res:', data);
     if (data?.status !== 'success') throw new Error('API responded with success=false');
 
     return data.data;
   } catch (error) {
     console.error("Failed to fetch initial search results:", error);
-    return { properties: [], totalPages: 0 }; // Return an empty state on error
+    return { properties: [], pagination: { limit: 10, page: 1, total: 0, totalPages: 0, }}; // Return an empty state on error
   }
 }
 
@@ -92,10 +88,9 @@ const SearchPageSkeleton = () => {
 // The main Server Component Page
 export default async function SearchPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const resolvedSearchParams = await searchParams
-    console.log("resolved params:", resolvedSearchParams);
   // Fetch the initial data on the server
   const initialData = await getInitialSearchResults(resolvedSearchParams);
-  console.log("initial data:", initialData)
+  // console.log("initial data:", initialData)
 
   return (
     <main className="search-page-container py-4 py-md-5">
@@ -107,7 +102,7 @@ export default async function SearchPage({ searchParams }: { searchParams: { [ke
         <Suspense fallback={<SearchPageSkeleton />}>
           <SearchPageClientWrapper
             initialProperties={initialData.properties}
-            initialTotalPages={initialData.totalPages}
+            initialPagination={initialData.pagination ?? null}
             searchParams={searchParams} // Pass initial params for hydration
             >
                 <PropertyResultsGrid properties={initialData.properties} loading={false} />

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropertyCard from '../fragments/PropertyCard';
 import { Property } from '@/types/common';

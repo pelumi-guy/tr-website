@@ -15,13 +15,13 @@ const getHeader = (listings: IPaginatedProperties) => {
   const value = listings.value;
 
   // Determine the message template based on the category
-  if (value.toLowerCase() === "available") {
+  if (value?.toLowerCase() === "available") {
     headerText = "Browse All Available Property Listings"
   }
-  else if (['location.city', 'location.state'].includes(listings.category)) {
+  else if (listings.category && ['location.city', 'location.state'].includes(listings.category)) {
     headerText = `Browse Available Property Listings that are in ${value}`;
   } else {
-    const pluralS = value.toLowerCase() === 'smart home' ? 's' : '';
+    const pluralS = value?.toLowerCase() === 'smart home' ? 's' : '';
     headerText = `Browse Available Property Listings that are ${value}${pluralS}`;
   }
 
@@ -133,7 +133,7 @@ const ExploreMoreCategories = ({
           </div>
 
           {/* --- ReactPaginate Component --- */}
-          {listings.pagination.total > 1 && (
+          {listings.pagination && listings.pagination.total > 1 && (
             <ReactPaginate
               previousLabel={'< Prev'}
               nextLabel={'Next >'}

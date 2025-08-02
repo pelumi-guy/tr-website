@@ -25,7 +25,7 @@ const Search = ({ classNames, headerSearch = false, darkButton = true }: SearchP
             const newUrl = `${targetPathname}?search=${encodeURIComponent(trimmedKeyword)}`;
 
             // This will now work correctly
-            router.push(newUrl);
+            router.replace(newUrl);
         } else {
             // Optional: If the user submits an empty form, you might just want to go to the search page
             // or do nothing. Going to the search page is a good user experience.

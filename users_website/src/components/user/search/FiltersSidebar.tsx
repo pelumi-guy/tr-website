@@ -84,9 +84,9 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
           </Form.Label>
           <Form.Range
             id="maxPriceRange"
-            min={10000000} // Example min
-            max={500000000} // Example max
-            step={1000000}  // Example step
+            min={50_000_000}
+            max={1_500_000_000}
+            step={1_000_000}
             value={maxPrice}
             onChange={handleMaxPriceChange}
           />

@@ -143,11 +143,11 @@ const deleteProperty = async(req, res) => {
 
 // My Methods
 const searchProperties = async(req, res, next) => {
-    // --- AI-Powered Search Integration ---
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
     const searchString = req.query.search;
 
     let keywordsForQuery = { keywords: searchString.split(" ").join(",") };
-    console.log('searchString:', searchString);
 
     // if (searchString) {
     //     // In a real app, this would be an async call to your LLM service
@@ -170,14 +170,19 @@ const searchProperties = async(req, res, next) => {
     // Execute the final query
     const properties = await features.query;
 
-    // TODO: You might want to get a total count for pagination on the frontend
-    // const total = await Property.countDocuments(features.query.getFilter());
+    const totalCount = await Property.countDocuments(features.query.getFilter());
 
     res.status(200).json({
         status: 'success',
         results: properties.length,
         data: {
             properties,
+            pagination: {
+                total: totalCount,
+                limit: limit,
+                page: page,
+                totalPages: Math.floor(totalCount / limit)
+            }
         },
     });
 };
