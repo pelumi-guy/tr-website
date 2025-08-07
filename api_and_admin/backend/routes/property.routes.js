@@ -7,7 +7,8 @@ import {
     deleteProperty,
     getAllProperties,
     getPropertiesCount,
-    searchProperties
+    searchProperties,
+    searchPropertiesWithLLM
 } from '../controllers/property.controller.js';
 
 const router = express.Router();
@@ -21,6 +22,9 @@ router.route('/all')
 
 router.route('/count')
     .get(getPropertiesCount)
+
+router.route('/ai-search')
+    .get(searchPropertiesWithLLM)
 
 router.route('/search')
     .get(searchProperties)

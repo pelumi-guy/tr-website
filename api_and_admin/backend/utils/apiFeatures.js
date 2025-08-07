@@ -12,12 +12,38 @@ class APIFeatures {
      * Expects a `keywords` query parameter, which is a comma-separated string of search terms.
      * Example: /api/v1/properties?keywords=lekki,pool,duplex
      */
-    search() {
+    search(aiSearch = false) {
         if (this.queryString.keywords) {
             const subtype = this.queryString.propertySubtype;
 
-            console.log("subtype:", subtype);
-            const keywords = this.queryString.keywords.split(',').map(kw => kw.trim());
+
+            const parseKeywords = (keywordString) => {
+                // Trim whitespace from the input string
+                const trimmedString = keywordString.trim();
+
+                // 1. Check if the string looks like a JSON array (starts with '[' and ends with ']')
+                if (trimmedString.startsWith('[') && trimmedString.endsWith(']')) {
+                    try {
+                        // 2. If it does, try to parse it as JSON.
+                        const parsedArray = JSON.parse(trimmedString);
+
+                        // 3. Ensure the result is actually an array before returning.
+                        if (Array.isArray(parsedArray)) {
+                            return parsedArray.map(kw => String(kw).trim()); // Ensure all elements are strings
+                        }
+                    } catch (error) {
+                        // If JSON.parse fails, it's not valid JSON.
+                        // We'll log the error and fall through to the comma-split logic.
+                        console.warn('Keyword string looked like an array but failed to parse as JSON:', error.message);
+                    }
+                }
+
+                // 4. If it's not a JSON array string, fall back to splitting by comma.
+                console.log('Parsing keywords from comma-separated string.');
+                return keywordString.split(',').map(kw => kw.trim());
+            };
+
+            const keywords = parseKeywords(this.queryString.keywords);
 
             // Create an array of regex conditions for each keyword
             const keywordConditions = keywords.map(keyword => ({
@@ -36,14 +62,16 @@ class APIFeatures {
                 ]
             }));
 
-            // Combine all keyword conditions with an $and operator.
-            // This means a document must match conditions for ALL keywords provided.
-            // e.g., must match "lekki" AND "pool".
-            // this.query = this.query.find({ $and: keywordConditions });
-
-            // --- ALTERNATIVE: Use $or to find properties that match ANY keyword ---
-            // If you want to show results that match "lekki" OR "pool", use this instead:
-            this.query = this.query.find({ $or: keywordConditions.flatMap(cond => cond.$or) });
+            if (aiSearch) {
+                // Combine all keyword conditions with an $and operator.
+                // This means a document must match conditions for ALL keywords provided.
+                // e.g., must match "lekki" AND "pool".
+                this.query = this.query.find({ $and: keywordConditions });
+            } else {
+                // --- ALTERNATIVE: Use $or to find properties that match ANY keyword ---
+                // If you want to show results that match "lekki" OR "pool", use this instead:
+                this.query = this.query.find({ $or: keywordConditions.flatMap(cond => cond.$or) });
+            }
         }
         return this;
     }

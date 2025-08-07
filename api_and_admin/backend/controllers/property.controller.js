@@ -3,6 +3,7 @@ import Property from "../models/property.js";
 import Admin from "../models/admin.js";
 import Agency from "../models/agency.js";
 import APIFeatures from "../utils/apiFeatures.js";
+import getStructuredSearchTerms from "../services/llmService.js";
 
 import * as dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
@@ -188,41 +189,50 @@ const searchProperties = async(req, res, next) => {
 };
 
 const searchPropertiesWithLLM = async(req, res, next) => {
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
+    const userSearchQuery = req.query.search;
+    const aiFilters = {};
+
     // --- AI-Powered Search Integration ---
-    const searchString = req.query.search; // e.g., "5 bedroom duplex with a pool in lekki"
+    if (userSearchQuery) {
+        // Get structured data from the Gemini API
+        const structuredTerms = await getStructuredSearchTerms(userSearchQuery);
 
-    let keywordsForQuery = { keywords: searchString };
-    console.log('searchString:', searchString);
 
-    // if (searchString) {
-    //     // In a real app, this would be an async call to your LLM service
-    //     const extractedKeywords = await getKeywordsFromLLM(searchString); // e.g., ['5 bedroom', 'duplex', 'pool', 'lekki']
-
-    //     // Prepare the keywords for the APIFeatures class
-    //     if (extractedKeywords && extractedKeywords.length > 0) {
-    //         keywordsForQuery = { keywords: extractedKeywords.join(',') };
-    //     }
-    // }
+        if (structuredTerms.keywords) {
+            aiFilters.keywords = structuredTerms.keywords; // Pass comma-separated keywords to search()
+        }
+        if (structuredTerms.maxPrice !== null) {
+            aiFilters['price[amount][lte]'] = structuredTerms.maxPrice
+        }
+        if (structuredTerms.minPrice !== null) {
+            aiFilters['price[amount][gte]'] = structuredTerms.minPrice
+        }
+    }
 
     // --- Execute the API Features ---
-    const features = new APIFeatures(Property.find(), {...req.query, ...keywordsForQuery })
-        .search() // Handles multi-keyword search
-        .filter() // Handles price[gte], details.bedrooms=5, etc.
-        .sort() // Handles sort=-price,createdAt
-        .limitFields() // Handles fields=title,price
-        .paginate(); // Handles page=2&limit=10
+    const features = new APIFeatures(Property.find(), aiFilters)
+        .search(true)
+        .filter()
+        .sort()
+        .paginate();
 
-    // Execute the final query
     const properties = await features.query;
 
-    // TODO: You might want to get a total count for pagination on the frontend
-    // const total = await Property.countDocuments(features.query.getFilter());
+    const totalCount = await Property.countDocuments(features.query.getFilter());
 
     res.status(200).json({
         status: 'success',
         results: properties.length,
         data: {
             properties,
+            pagination: {
+                total: totalCount,
+                limit: limit,
+                page: page,
+                totalPages: Math.floor(totalCount / limit)
+            }
         },
     });
 };
