@@ -175,7 +175,7 @@ a.secondary {
 }
 
 .sectionHeading h2 {
-    line-height: 29px;
+    line-height: 30px;
     font-weight: 600;
 }
 
@@ -183,9 +183,22 @@ a.secondary {
     line-height: 24px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
     .landingSection {
-        padding: 5px 15px 5px 15px;
+        padding: 10px 10px 10px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sectionHeading h2 {
+        line-height: 20px;
+        font-weight: 400;
+    }
+    .sectionHeading p {
+        line-height: 18px;
+    }
+    .landingSection {
+        padding: 5px 10px 5px 10px;
     }
     .faq {
         padding: 0% 5% 5% 5%;

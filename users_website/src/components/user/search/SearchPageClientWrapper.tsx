@@ -89,10 +89,10 @@ const SearchPageClientWrapper: React.FC<SearchPageClientWrapperProps> = ({
       ...(searchQuery.trim() ? [searchQuery.trim()] : [])
     ];
 
-    setFilters(prev => ({
-      ...prev,
-      keywords: allKeywords
-    }));
+    // setFilters(prev => ({
+    //   ...prev,
+    //   keywords: allKeywords
+    // }));
 
     if (allKeywords.length > 0) {
       // Your backend expects a single comma-separated string for 'keywords'
@@ -148,7 +148,7 @@ const SearchPageClientWrapper: React.FC<SearchPageClientWrapperProps> = ({
       clearTimeout(handler);
     };
 
-  }, [filters, searchQuery, sortOption, router, pathname, initialSearchParams.search, currentPage]);
+  }, [searchQuery, sortOption, router, pathname, currentPage, filters, initialSearchParams.search]);
 
   // useUpdateEffect(() => {
   //   setSearchQuery(prev => {

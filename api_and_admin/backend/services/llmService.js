@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: "config.env" });
 
-console.log("env:", process.env);
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Define the schema for the structured response

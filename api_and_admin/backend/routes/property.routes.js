@@ -8,7 +8,8 @@ import {
     getAllProperties,
     getPropertiesCount,
     searchProperties,
-    searchPropertiesWithLLM
+    searchPropertiesWithLLM,
+    getSimilarProperties
 } from '../controllers/property.controller.js';
 
 const router = express.Router();
@@ -18,16 +19,19 @@ router.route('/')
     .post(createProperty);
 
 router.route('/all')
-    .get(getAllProperties)
+    .get(getAllProperties);
 
 router.route('/count')
-    .get(getPropertiesCount)
+    .get(getPropertiesCount);
 
 router.route('/ai-search')
-    .get(searchPropertiesWithLLM)
+    .get(searchPropertiesWithLLM);
 
 router.route('/search')
-    .get(searchProperties)
+    .get(searchProperties);
+
+router.route('/:id/similar')
+    .get(getSimilarProperties);
 
 router.route('/:id')
     .get(getPropertyDetails)

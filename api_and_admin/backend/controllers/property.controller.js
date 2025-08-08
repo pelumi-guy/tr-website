@@ -297,6 +297,63 @@ const getPropertiesCount = async(req, res, next) => {
     });
 };
 
+/**
+ * @desc    Get a list of similar properties based on location, type, and price.
+ * @route   GET /api/v1/properties/:id/similar
+ * @access  Public
+ */
+const getSimilarProperties = async(req, res, next) => {
+    // 1. --- Get the original property to find its characteristics ---
+    const originalProperty = await Property.findById(req.params.id).select(
+        'location.city propertySubtype price.amount'
+    );
+
+    // If the original property doesn't exist, send a 404 error.
+    if (!originalProperty) {
+        return next(new ErrorHandler('Property with that ID not found.', 404));
+    }
+
+    // 2. --- Define the "Similarity" Criteria ---
+    const city = originalProperty.location.city;
+    const subtype = originalProperty.propertySubtype;
+    const price = originalProperty.price.amount;
+
+    // Define a price range for "similar" properties.
+    // e.g., +/- 25% of the original property's price.
+    const priceMargin = 0.25;
+    const minPrice = price * (1 - priceMargin);
+    const maxPrice = price * (1 + priceMargin);
+
+    // 3. --- Build the MongoDB Query for Similar Properties ---
+    const similarProperties = await Property.find({
+            // --- Core Similarity Conditions ---
+            $and: [{
+                    $or: [
+                        { 'location.city': { $regex: new RegExp(`^${city}$`, 'i') } },
+
+                        { 'price.amount': { $gte: minPrice, $lte: maxPrice } },
+                    ]
+                },
+                { '_id': { $ne: req.params.id } },
+
+                { 'status': 'Available' },
+
+                // { 'propertySubtype': { $regex: new RegExp(`^${subtype}$`, 'i') } },
+            ]
+        })
+        .sort({ viewCount: -1, createdAt: -1 }) // Prioritize popular and newer properties among the similar ones
+        .limit(3); // We only need 3 similar properties
+    // .select('title price location photos propertyType listingType');
+    // 4. --- Send the Response ---
+    res.status(200).json({
+        status: 'success',
+        results: similarProperties.length,
+        data: {
+            properties: similarProperties,
+        },
+    });
+};
+
 export {
     adminLegacyGetAllProperties,
     getPropertyDetails,
@@ -306,5 +363,6 @@ export {
     searchPropertiesWithLLM,
     getAllProperties,
     getPropertiesCount,
-    searchProperties
+    searchProperties,
+    getSimilarProperties
 };

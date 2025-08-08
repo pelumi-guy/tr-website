@@ -2,6 +2,7 @@ import React from 'react';
 import PropertyCard from '../fragments/PropertyCard';
 import { Property } from '@/types/common';
 import { IProperty } from '@/types/property';
+import EmptyStateMessage from '../fragments/EmptyStateMessage';
 
 interface PropertyResultsGridProps {
   properties: IProperty[];
@@ -22,10 +23,9 @@ const PropertyResultsGrid: React.FC<PropertyResultsGridProps> = ({ properties, l
 
   if (!properties || properties.length === 0) {
     return (
-      <div className="text-center py-5">
-        <h4>No Properties Found</h4>
-        <p className="text-muted">Try adjusting your search filters or keywords.</p>
-      </div>
+      <EmptyStateMessage
+      title="No Properties Found"
+              message="Try adjusting your search filters or keywords." />
     );
   }
 

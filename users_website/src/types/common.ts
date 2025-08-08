@@ -13,3 +13,16 @@ export interface Property {
     creatorId: number,
 
   }
+
+
+  export interface AgentProfileData {
+    firstName: string;
+    lastName: string;
+    title: string;
+    phone: string;
+    email: string;
+    rating: number; // e.g., 4.0, 4.5
+    bio: string[]; // Array of strings for paragraphs
+    imageUrl: string;
+    quote: string;
+  }

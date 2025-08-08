@@ -1,0 +1,57 @@
+// _agentprofile.scss
+.agent-profile-header-section {
+    .agent-profile-card {
+        border: none;
+        border-radius: $border-radius-xl; // A larger, softer radius
+        padding: 2rem; // Generous padding inside the card
+        @include media-breakpoint-down(md) {
+            padding: 1.5rem;
+        }
+    }
+    .agent-name {
+        color: $textBlack;
+    }
+    .agent-title {
+        // Styling for "Lead Agent"
+    }
+    .contact-info {
+        gap: 1.5rem; // Space between phone and email
+        .contact-link {
+            color: $textBlack;
+            transition: color 0.2s ease;
+            &:hover {
+                color: $primary; // Use your primary color for hover
+            }
+        }
+    }
+    .star-rating {
+        .filled-star {
+            color: #ffc107; // Standard Bootstrap warning/star color
+        }
+    }
+    .agent-bio {
+        p {
+            font-size: 0.95rem;
+        }
+    }
+    .book-a-tour-btn {
+        padding: 0.8rem 2rem; // Make the button substantial
+        font-weight: 500;
+    }
+    .agent-image-wrapper {
+        border-radius: $border-radius-lg;
+        overflow: hidden; // Crucial for making the image corners round
+        height: 100%; // Ensure wrapper takes height in flex context
+        min-height: 450px; // Prevent image from collapsing
+    }
+    .agent-image {
+        height: 100%;
+        width: 100%;
+    }
+    .agent-quote {
+        blockquote {
+            max-width: 800px;
+            margin: 0 auto; // Center the quote block
+        }
+    }
+}
