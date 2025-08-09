@@ -2,14 +2,12 @@
 'use client'
 
 import React, { useState, FormEvent, useEffect } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-const Search = ({ classNames, headerSearch = false, darkButton = true, aiSearch = false }: SearchProps) => {
+const LLMSearch = ({ classNames, headerSearch = false, darkButton = true, aiSearch = false }: SearchProps) => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const pathName = usePathname();
     const initialKeyword = searchParams.get('search') || '';
-
 
     const [keyword, setKeyword] = useState(initialKeyword);
     const [aiPrompt, setAiPrompt] = useState(initialKeyword);
@@ -20,16 +18,13 @@ const Search = ({ classNames, headerSearch = false, darkButton = true, aiSearch 
 
     useEffect(() => {
         const queryFromUrl = searchParams.get('search') || '';
-
-        console.log('pathname:', pathName);
-        if (queryFromUrl != keyword || queryFromUrl != aiPrompt) {
-            if (pathName.includes('search-with-ai')) setAiPrompt(queryFromUrl);
-            else setKeyword(queryFromUrl);
+        if (queryFromUrl !== keyword) {
+            setKeyword(queryFromUrl);
         }
     }, [searchParams]);
 
     const searchHandler = async (event: FormEvent<HTMLFormElement>) => {
-        const targetPathname = aiSearch ? '/search-with-ai' : '/search';
+        const targetPathname = '/search-with-ai';
         const searchQuery = aiSearch ? aiPrompt : keyword;
 
         event.preventDefault();
@@ -60,21 +55,21 @@ const Search = ({ classNames, headerSearch = false, darkButton = true, aiSearch 
                         type="text"
                         name="search_query"
                         className={`form-control search-field ${darkButton ? 'text-black' : 'text-white'}`}
-                        placeholder={`${aiSearch ? 'e.g., "a modern 4-bedroom semi-detached duplex in Lekki with a swimming pool"' : 'Search properties, locations...'}`}
-                        value={aiSearch ? aiPrompt : keyword}
-                        onChange={(e) => aiSearch ? setAiPrompt(e.target.value) : setKeyword(e.target.value)}
+                        placeholder={'e.g., "a modern 4-bedroom semi-detached duplex in Lekki with a swimming pool"'}
+                        value={aiPrompt}
+                        onChange={(e) => setAiPrompt(e.target.value)}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         disabled={isLoading}
                     />
                     {/* The Aurora effect is placed inside the wrapper, behind the input */}
                     {aiSearch &&
-                        (<div className="aurora">
-                            <div className="aurora__item"></div>
-                            <div className="aurora__item"></div>
-                            <div className="aurora__item"></div>
-                            <div className="aurora__item"></div>
-                        </div>)}
+                    (<div className="aurora">
+                        <div className="aurora__item"></div>
+                        <div className="aurora__item"></div>
+                        <div className="aurora__item"></div>
+                        <div className="aurora__item"></div>
+                    </div>)}
 
                     {/* Optional: Add a subtle loading indicator */}
                     {isLoading && <div className="spinner-border text-primary loading-spinner" role="status"></div>}
@@ -100,4 +95,4 @@ interface SearchProps {
     aiSearch?: boolean;
 }
 
-export default Search;
+export default LLMSearch;

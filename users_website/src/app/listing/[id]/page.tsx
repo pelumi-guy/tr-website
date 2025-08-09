@@ -51,6 +51,37 @@ async function getListingDetails(id: string): Promise<IProperty | null> {
 }
 
 
+async function getSimilarListings(propertyId: string) {
+    try {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8080';
+        const url = `${apiBaseUrl}/api/v1/properties/${propertyId}/similar`;
+
+
+        const res = await fetch(url, { next: { revalidate: 3600 } });
+
+        if (!res.ok) {
+            // This will be caught by the nearest error.js file.
+            throw new Error(`Failed to fetch agent listings data: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+
+        // Assuming your API returns { success: true, data: { propertiesOfTheWeek: [], hotProperties: [] } }
+        if (data.status === 'success') {
+            return data.data; // Return the nested data object
+        } else {
+            console.warn('API indicated a failure:', data.message);
+            return { properties: [] };
+        }
+    } catch (error) {
+        // Handle network errors or other fetch-related issues.
+        console.error("Error in getHomepageData:", error);
+        // In case of an error, we return a default empty state to prevent the page from crashing.
+        return { properties: [] };
+    }
+}
+
+
 // --- DYNAMIC METADATA (App Router way) ---
 export async function generateMetadata(
     { params }: { params: { id: string } },
@@ -86,6 +117,8 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
     const resolvedParams = await params;
     const id = resolvedParams.id;
     const product = await getListingDetails(id);
+    const similarListings = await getSimilarListings(id);
+    console.log("Similar Listings:", similarListings);
 
     if (!product) {
         notFound();
@@ -108,7 +141,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
         videoSrc: product.videoUrl
     })
 
-    const amenitiesForGrid : Amenity[] = product.amenities.map((amenity, idx) => ({
+    const amenitiesForGrid: Amenity[] = product.amenities.map((amenity, idx) => ({
         id: `amenity-${idx}`,
         text: amenity,
     }))
@@ -155,7 +188,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
               AmenitiesGrid would also need a mapping from product.features.
               For now, let's assume it's covered by the tags in ProductInfo.
               */}
-              <AmenitiesGrid amenities={amenitiesForGrid} />
+                        <AmenitiesGrid amenities={amenitiesForGrid} />
 
                     </div>
                 </div>
@@ -172,7 +205,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                 )}
 
                 <div className="mt-4 mt-lg-5">
-                    <SimilarListings />
+                    <SimilarListings properties={similarListings.properties} />
                 </div>
             </main>
         </>

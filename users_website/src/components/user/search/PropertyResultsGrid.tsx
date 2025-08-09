@@ -23,9 +23,11 @@ const PropertyResultsGrid: React.FC<PropertyResultsGridProps> = ({ properties, l
 
   if (!properties || properties.length === 0) {
     return (
-      <EmptyStateMessage
-      title="No Properties Found"
-              message="Try adjusting your search filters or keywords." />
+      <div className='px-3 px-lg-0'>
+        <EmptyStateMessage
+          title="No Properties Found"
+          message="Try adjusting your search filters or keywords." />
+      </div>
     );
   }
 

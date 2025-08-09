@@ -5,6 +5,9 @@ import { images } from '@/exports/images';
 import { IProperty } from '@/types/property';
 import { AgentProfileData } from '@/types/common';
 
+
+
+
 const AgentListings = () => {
 
     const dummyProperties : Array<IProperty> = [{
@@ -104,7 +107,7 @@ const agent: AgentProfileData = {
     return (
         <section className='container'>
             <hgroup className="section-heading">
-                <h2>{agent.firstName}'s Listings</h2>
+                <h2>{agent.firstName}&apos;s Listings</h2>
                 <p className='mt-2 text-muted'>Book {agent.firstName} for a tour to see these listings.</p>
             </hgroup>
 

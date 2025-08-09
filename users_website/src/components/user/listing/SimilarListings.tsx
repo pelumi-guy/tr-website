@@ -4,7 +4,13 @@ import PropertyCard from '../fragments/PropertyCard';
 import { images } from '@/exports/images';
 import { IProperty } from '@/types/property';
 
-const SimilarListings = () => {
+interface SimilarListingsProps {
+    properties: Array<IProperty>;
+}
+
+const SimilarListings = ({
+    properties
+} : SimilarListingsProps) => {
 
     const dummyProperties : Array<IProperty> = [{
         _id: "1",
@@ -102,9 +108,9 @@ const SimilarListings = () => {
                 <p>People also checked the following out </p>
             </hgroup>
 
-            <div className="row d-flex justify-content-lg-between justify-content-center mx-0 px-0">
+            <div className={`row d-flex justify-content-lg-${properties.length === 3 ? 'between' : 'start'} justify-content-center mx-0 px-0`}>
                 {
-                    dummyProperties.map((property, key) => (
+                    properties.map((property, key) => (
                         <PropertyCard
                             property={property}
                             key={key}

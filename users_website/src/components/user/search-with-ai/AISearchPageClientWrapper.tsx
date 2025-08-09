@@ -120,7 +120,7 @@ const AISearchPageClientWrapper: React.FC<AISearchPageClientWrapperProps> = ({
   return (
     <div className="row">
 
-      <hgroup className={styles.sectionHeading}>
+      <hgroup className="section-heading">
         <h2>Describe Your Dream Home, Let AI Find It</h2>
         <p>Use our intelligent search to describe the features that matter most to you.</p>
       </hgroup>

@@ -1,0 +1,55 @@
+// SCSS for Navbar Links (e.g., in _header.scss)
+.navbar {
+    .navbar-nav {
+        .nav-item {
+            .nav-link {
+                color: $black; // Your default link color
+                font-weight: 500; // Give it some presence
+                position: relative; // Needed for the ::after pseudo-element
+                padding-bottom: 0.5rem; // Add some space for the underline effect
+                // --- Underline Styling (hidden by default) ---
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%; // Start in the middle
+                    transform: translateX(-50%);
+                    width: 0; // Start with no width
+                    height: 2px;
+                    background-color: $primary; // Your primary brand color
+                    transition: width 0.3s ease-in-out;
+                }
+                // --- Hover State ---
+                // Animate the underline on hover
+                &:hover {
+                    color: $primary; // Change text color on hover
+                    font-weight: 700; // Make the active link bolder
+                    // Make the underline permanently visible for the active link
+                    &::after {
+                        width: 100%; // Expand underline to full width
+                    }
+                }
+                // --- Active State (for the current page) ---
+                // The .active class is added by our React logic
+                &.active {
+                    color: $primary;
+                    font-weight: 700; // Make the active link bolder
+                    // Make the underline permanently visible for the active link
+                    &::after {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+    // Optional: Style the mobile menu background when it's open for better contrast
+    @include media-breakpoint-down(lg) {
+        .navbar-collapse {
+            background-color: $white; // Or a light grey like $light
+            border-radius: $border-radius;
+            padding: $spacer;
+            margin-top: $spacer * 0.5;
+            box-shadow: 0 4px 12px rgba($black, 0.1);
+        }
+    }
+}

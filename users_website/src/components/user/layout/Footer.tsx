@@ -90,7 +90,7 @@ const Footer = () => {
 
             <div className="py-3 copyright container-fluid d-flex justify-content-end align-items-center mx-0">
                 <div className="px-3 px-md-5 justify-content-md-center fg-subtle">
-                    Transcendent Realty &copy; 2025
+                    Lagos Property Center by Transcendent Realty &copy; 2025
                 </div>
 
             </div>

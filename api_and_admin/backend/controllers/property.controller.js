@@ -4,6 +4,7 @@ import Admin from "../models/admin.js";
 import Agency from "../models/agency.js";
 import APIFeatures from "../utils/apiFeatures.js";
 import getStructuredSearchTerms from "../services/llmService.js";
+import ErrorHandler from "../utils/errorHandler.js";
 
 import * as dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
