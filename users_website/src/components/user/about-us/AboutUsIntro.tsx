@@ -4,12 +4,11 @@ import React from 'react';
 const AboutUsIntro = () => {
 
 
-     const introQuestion = "Who are we at Transcendent Realty?";
+     const introQuestion = "What is Lagos Property Center?";
   const mainHeading = "About Us";
-  const paragraph1 = "At TR (Transcendent Realty), we are redefining the real estate experience by delivering premium services tailored to meet the unique needs of every client. With a foundation built on trust, innovation, and excellence, we specialize in premium real estate services, brokerage, and consultancy. Whether you're buying, selling, renting, or investing, we guide you through the process with unmatched expertise and a commitment to exceptional service.";
-  const paragraph2 = "Our portfolio spans luxurious residential properties, commercial spaces, and prime real estate opportunities that reflect the dynamic and vibrant landscape of Lagos and beyond.";
-  const videoSrc = "/videos/stock-video.mp4";
-  const videoPoster = "/images/video-poster.jpg";
+  const paragraph = "Lagos Property Center, powered by <b><em>Transcendent Realty</em></b>, is redefining the real estate experience by delivering premium services tailored to the unique needs of every client. Built on a foundation of trust, innovation, and excellence, we specialize in premium real estate services, brokerage, and consultancy. Whether you're buying, selling, renting, or investing, we guide you through the process with unmatched expertise and a commitment to exceptional service.</br>Our portfolio spans luxurious residential properties, commercial spaces, and prime real estate opportunities that reflect the dynamic and vibrant landscape of Lagos and beyond.";
+  const videoSrc = "/videos/Lekki_Drone_Shot.mp4";
+  const videoPoster = "/images/Lekki_Phase_One.png";
   return (
     <section className="about-us-intro-section py-5">
       <div className="container" style={{ maxWidth: '1200px' }}>
@@ -23,12 +22,7 @@ const AboutUsIntro = () => {
             <div className="d-block d-md-none col-12 mb-2 px-0">
             <h3 className="intro-question fw-semibold mx-0">{introQuestion}</h3>
           </div>
-            <p className="about-paragraph lead">
-                {paragraph1}
-                <br />
-                {paragraph2}
-            </p>
-
+            <p className="about-paragraph lead" dangerouslySetInnerHTML={{ __html: paragraph }}></p>
           </div>
         </div>
 

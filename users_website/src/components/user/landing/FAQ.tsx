@@ -41,7 +41,7 @@ const FAQ = () => {
             </hgroup>
 
 
-            <div className={`accordion accordion-flush ${styles.faq}`} id="accordionFlushExample">
+            <div className={`accordion accordion-flush ${styles.faq}`} id="faq-accordion">
                 {faqs.map((faq, idx) => {
                     return (
                         <div className="accordion-item my-3 curved-border" key={idx}>

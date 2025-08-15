@@ -8,6 +8,7 @@ import PropertiesOfTheWeek from "@/components/user/landing/PropertiesOfTheWeek";
 import HotRightNow from "@/components/user/landing/HotRightNow";
 import FAQ from "@/components/user/landing/FAQ";
 import PropertyShowcaseCarousel from "@/components/user/landing/PropertyShowcaseCarousel";
+import HeroSection from '@/components/user/landing/HeroSection';
 
 async function getHomepageData() {
   try {
@@ -56,7 +57,8 @@ export default async function Home() {
   // 2. No more `useState` or `useEffect`. The data is available immediately for rendering.
   return (
     <main>
-      <PropertyShowcaseCarousel />
+      {/* <PropertyShowcaseCarousel /> */}
+      <HeroSection />
       <div className="container-fluid px-5 px-md-6">
         <SearchForYourDreamHome />
         {/* 3. Pass the server-fetched data down as props to the child components. */}

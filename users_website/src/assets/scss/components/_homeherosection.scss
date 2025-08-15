@@ -1,0 +1,75 @@
+// SCSS for HeroSection and HeroSearchPanel
+.hero-section-wrapper {
+    // Use the existing .property-showcase-carousel class or a new one
+    .hero-background-carousel {
+        // Height of the hero section
+        height: 90vh;
+        min-height: 600px;
+        max-height: 850px;
+        .showcase-overlay {
+            background-color: rgba($black, 0.4); // Adjust overlay darkness
+        }
+        // Adjust caption to give the search panel space
+        .carousel-caption-with-search {
+            // Don't use the default bottom positioning
+            padding-bottom: 5rem;
+        }
+    }
+}
+
+// Styling for the new search panel
+.hero-search-panel {
+    width: 90%;
+    max-width: 950px;
+    border: none;
+    border-radius: 20px; // Softer, larger radius
+    backdrop-filter: blur(5px); // Frosted glass effect (optional but cool)
+    background-color: rgba($white, 0.95) !important; // Slightly transparent white
+    .nav-pills {
+        // Custom styling for the Rent/Sale/Shortlet tabs
+        .nav-link {
+            color: $black;
+            font-weight: 500;
+            border-radius: 10px;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.25rem;
+            transition: all 0.2s ease-in-out;
+            &.active {
+                background-color: $primary !important; // Use your primary color
+                color: $white;
+                box-shadow: 0 4px 10px rgba($primary, 0.3);
+            }
+        }
+    }
+    .form-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: $black;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+    .form-control,
+    .form-select {
+        border: 1px solid $light; // Light border for inputs
+        border-radius: 8px;
+        &:focus {
+            border-color: $primary;
+            box-shadow: 0 0 0 2px rgba($primary, 0.2);
+        }
+    }
+    .search-submit-btn {
+        font-weight: 600;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-radius: 8px;
+    }
+}
+
+// Responsive adjustments for the search panel
+@include media-breakpoint-down(lg) {
+    .hero-search-panel {
+        .search-submit-btn {
+            margin-top: 1rem; // Give the button its own row on smaller screens
+        }
+    }
+}

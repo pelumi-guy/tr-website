@@ -56,7 +56,7 @@ const Footer = () => {
                             <Link href="#!" className="footer-item mb-2">
                                 <div className="footer-item mb-2">Compare Listings</div>
                             </Link>
-                            <Link href="#!">
+                            <Link href="/contact-us">
                                 <div className="footer-item mb-2">Contact Us</div>
                             </Link>
                         </div>
@@ -65,11 +65,11 @@ const Footer = () => {
                     <div className="col-12 col-md-3 mt-2 mt-md-0">
                         <div className="footer-col">
                             <div className="footer-header mb-3">Resources</div>
-                            <Link href="#!" className="footer-item mb-2">
+                            <Link href="/about-us" className="footer-item mb-2">
                                 <div className="footer-item mb-2">About Us</div></Link>
                             <Link href="#!" className="footer-item mb-2">
                                 <div className="footer-item mb-2">Testimonials</div></Link>
-                            <Link href="#!">
+                            <Link href="/#faq-accordion">
                                 <div className="footer-item mb-2">FAQ</div></Link>
                         </div>
                     </div>
