@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import React, { useState } from 'react';
@@ -14,9 +15,10 @@ interface ContactInfoItem {
 }
 
 interface ContactFormData {
-    name: string;
+    firstname: string;
     surname: string;
     email: string;
+    phone: string;
     message: string;
 }
 
@@ -29,8 +31,8 @@ interface ContactHeroFormProps {
 }
 
 const defaultContactInfo: ContactInfoItem[] = [
-    { id: 'address', icon: <FiMapPin size={24} />, title: 'Address', lines: ['123 Realty Street, Lekki Phase 1,', 'Lagos, Nigeria'] },
-    { id: 'phone', icon: <FiPhone size={24} />, title: 'Phone', lines: ['333-444-6667'], href: 'tel:3334446667' },
+    { id: 'address', icon: <FiMapPin size={24} />, title: 'Address', lines: ['44/46 Alaramimo Street, Agege,', 'Lagos, Nigeria'] },
+    { id: 'phone', icon: <FiPhone size={24} />, title: 'Phone', lines: ['+234-916-911-2315'], href: 'tel:2349169112315' },
     { id: 'email', icon: <FiMail size={24} />, title: 'Email', lines: ['info@transcendentrealty.com'], href: 'mailto:info@transcendentrealty.com' },
 ];
 
@@ -40,14 +42,15 @@ const ContactHeroForm: React.FC<ContactHeroFormProps> = ({
 
     const backgroundImageUrl = "/images/PropertyImagePlaceholder3.png";
     const title = "Contact Us";
-    const subtitle = "Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien."
+    const subtitle = "Let's bring your dream property to life. Share your enquiry with us, and one of our dedicated agents will respond promptly to provide you with the premium service you deserve."
     const contactInfo = defaultContactInfo;
 
     const [formData, setFormData] = useState<ContactFormData>({
-        name: '',
+        firstname: '',
         surname: '',
         email: '',
         message: '',
+        phone: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitMessage, setSubmitMessage] = useState<string | null>(null);
@@ -59,24 +62,35 @@ const ContactHeroForm: React.FC<ContactHeroFormProps> = ({
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!onSubmitForm) {
-            console.warn("No onSubmitForm handler provided to ContactHeroForm");
-            setSubmitMessage("Form submission is not configured.");
-            return;
-        }
         setIsSubmitting(true);
         setSubmitMessage(null);
+
         try {
-            await onSubmitForm(formData);
-            setSubmitMessage("Message sent successfully!");
-            setFormData({ name: '', surname: '', email: '', message: '' }); // Reset form
-        } catch (error) {
-            console.error("Form submission error:", error);
-            setSubmitMessage("Failed to send message. Please try again.");
+          // THE KEY CHANGE IS HERE: Use fetch to call your new API route
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            // Handle HTTP errors (e.g., 400, 500)
+            throw new Error(result.error || 'Something went wrong');
+          }
+
+          setSubmitMessage("Message sent successfully!");
+          setFormData({ firstname: '', surname: '', email: '', message: '', phone: '' });
+        } catch (error: any) {
+          console.error("Form submission error:", error);
+          setSubmitMessage(error.message || "Failed to send message. Please try again.");
         } finally {
-            setIsSubmitting(false);
+          setIsSubmitting(false);
         }
-    };
+      };
 
     return (
         <section
@@ -120,7 +134,7 @@ const ContactHeroForm: React.FC<ContactHeroFormProps> = ({
                                 <Form onSubmit={handleSubmit}>
                                     <Form.Group className="mb-3" controlId="contactFormName">
                                         <Form.Label>First Name</Form.Label>
-                                        <Form.Control type="text" name="firstname" value={formData.name} onChange={handleChange} placeholder="Enter your first name" required />
+                                        <Form.Control type="text" name="firstname" value={formData.firstname} onChange={handleChange} placeholder="Enter your first name" required />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="contactFormSurname">
@@ -131,6 +145,11 @@ const ContactHeroForm: React.FC<ContactHeroFormProps> = ({
                                     <Form.Group className="mb-3" controlId="contactFormEmail">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter your email" required />
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="contactFormEmail">
+                                        <Form.Label>Phone</Form.Label>
+                                        <Form.Control type="textarea" name="phone" value={formData.phone} onChange={handleChange} placeholder="Enter your phone number" required />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="contactFormMessage">

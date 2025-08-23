@@ -1,0 +1,79 @@
+// SCSS for _FloatingWhatsAppButton.scss
+// Define WhatsApp brand color for consistency
+$whatsapp-green: #25D366;
+.floating-whatsapp-btn {
+    // --- Positioning and Base Styles ---
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1050; // High z-index to be on top of most elements
+    // --- Appearance ---
+    width: 60px;
+    height: 60px;
+    background-color: $whatsapp-green;
+    color: #FFF;
+    border-radius: 50%; // Make it a perfect circle
+    box-shadow: 0 4px 12px rgba($black, 0.2);
+    // --- Content Alignment ---
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; // Remove underline from the <a> tag
+    // --- Animation & Visibility ---
+    opacity: 0;
+    transform: scale(0.8) translateY(20px); // Start scaled down and slightly below
+    pointer-events: none; // Not clickable when hidden
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    // --- Hover State for the button itself ---
+    &:hover {
+        transform: scale(1.1); // Slightly enlarge on hover
+        box-shadow: 0 6px 16px rgba($black, 0.25);
+        // Show the tooltip on hover
+        .tooltip-text {
+            opacity: 1;
+            transform: translateX(0);
+            visibility: visible;
+        }
+    }
+    // --- Visible State ---
+    // This class is added by React when the button should appear
+    &.visible {
+        opacity: 1;
+        transform: scale(1) translateY(0); // Scale to normal size and original position
+        pointer-events: auto; // Make it clickable
+    }
+    // --- Tooltip Styling ---
+    .tooltip-text {
+        position: absolute;
+        right: 100%; // Position to the left of the button
+        margin-right: 1rem; // Spacing between tooltip and button
+        // Appearance
+        background-color: $black;
+        color: $white;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius-lg;
+        font-size: 0.85rem;
+        font-weight: 500;
+        white-space: nowrap; // Prevent text from wrapping
+        // Animation
+        opacity: 0;
+        transform: translateX(10px); // Start slightly to the right
+        visibility: hidden;
+        pointer-events: none; // Tooltip itself is not clickable
+        transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    }
+}
+
+// --- Responsive Adjustment for Mobile ---
+@include media-breakpoint-down(sm) {
+    .floating-whatsapp-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 55px;
+        height: 55px;
+        // Hide the text tooltip on mobile to prevent clutter
+        .tooltip-text {
+            display: none;
+        }
+    }
+}

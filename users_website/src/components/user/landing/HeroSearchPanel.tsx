@@ -2,48 +2,52 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button, Card, Col, Form, Nav, Row } from 'react-bootstrap';
 import { FiSearch } from 'react-icons/fi';
+import { ListingType } from '@/types/common';
 
-type ListingType = 'rent' | 'sale' | 'shortlet';
 
-const HeroSearchPanel = () => {
-  const router = useRouter();
+interface SearchPanelProps {
+  // State values
+  activeTab: ListingType;
+  location: string;
+  propertyType: string;
+  bedrooms: string;
+  // price: PriceRange;
 
-  // State for the form inputs
-  const [activeTab, setActiveTab] = useState<ListingType>('rent');
-  const [location, setLocation] = useState('');
-  const [propertyType, setPropertyType] = useState('');
-  const [bedrooms, setBedrooms] = useState('');
-  const [price, setPrice] = useState({ min: '', max: '' });
+  // State setter functions
+  setActiveTab: React.Dispatch<React.SetStateAction<ListingType>>;
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
+  setPropertyType: React.Dispatch<React.SetStateAction<string>>;
+  setBedrooms: React.Dispatch<React.SetStateAction<string>>;
+  // setPrice: React.Dispatch<React.SetStateAction<PriceRange>>;
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // You would also pass the submit handler function
+  handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
+}
 
-    // Construct the query parameters for the search page
-    const params = new URLSearchParams();
-    params.set('listingType', activeTab);
-    if (location) params.set('location', location);
-    if (propertyType) params.set('propertyType', propertyType);
-    if (bedrooms) params.set('bedrooms', bedrooms);
-    if (price.min) params.set('price[gte]', price.min); // Mongoose-friendly format
-    if (price.max) params.set('price[lte]', price.max); // Mongoose-friendly format
-
-    // Navigate to the search page with the constructed query
-    router.push(`/search?${params.toString()}`);
-  };
+const HeroSearchPanel: React.FC<SearchPanelProps> = ({
+  activeTab,
+  location,
+  propertyType,
+  bedrooms,
+  setActiveTab,
+  setLocation,
+  setPropertyType,
+  setBedrooms,
+  handleSearch,
+}) => {
 
   return (
     <Card className="hero-search-panel shadow-lg">
       <Card.Header className="bg-white border-0 pt-3 px-3">
         {/* Tabs for Rent/Sale/Shortlet */}
-        <Nav variant="pills" defaultActiveKey="rent" onSelect={(selectedKey) => setActiveTab(selectedKey as ListingType)}>
-          <Nav.Item>
-            <Nav.Link eventKey="rent">Rent</Nav.Link>
-          </Nav.Item>
+        <Nav variant="pills" defaultActiveKey="sale" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey as ListingType)}>
           <Nav.Item>
             <Nav.Link eventKey="sale">Sale</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="rent">Rent</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="shortlet">Shortlet</Nav.Link>
@@ -57,7 +61,7 @@ const HeroSearchPanel = () => {
               <Form.Group controlId="formLocation">
                 <Form.Label>Location</Form.Label>
                 {/* <Form.Control type="text" placeholder="Search Location" value={location} onChange={e => setLocation(e.target.value)} /> */}
-                <Form.Select value={propertyType} onChange={e => setLocation(e.target.value)}>
+                <Form.Select value={location} onChange={e => setLocation(e.target.value)}>
                   <option value="">Location</option>
                   <option value="apartment">Lekki</option>
                   <option value="duplex">Ajah</option>
@@ -91,13 +95,14 @@ const HeroSearchPanel = () => {
                 </Form.Select>
               </Form.Group>
             </Col>
-            <Col md={6} lg={2}>
+            {/* <Col md={6} lg={2}>
               <Form.Group controlId="formPrice">
                 <Form.Label>Price</Form.Label>
-                <Form.Control type="text" placeholder="Min - Max" value={`${price.min} - ${price.max}`} readOnly />
+                <Form.Control type="text" placeholder="Min - Max" value={`${price.min} - ${price.max}`} readOnly /> */}
                 {/* A real implementation might use a dropdown with a price range slider here */}
-              </Form.Group>
-            </Col>
+              {/* </Form.Group>
+            </Col> */}
+            <Col md={6} lg={2}></Col>
             <Col xs={12} lg={2}>
               <Button variant="primary" type="submit" className="w-100 search-submit-btn">
                 <FiSearch className="me-1" /> Search

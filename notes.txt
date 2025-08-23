@@ -2,3 +2,53 @@ propertySubtype (catories)
 - Smart Home <Duplex | Triplex>
 - Semi-Detached <Duplex | Triplex>
 - Fully Detached <Duplex | Triplex>
+
+
+# Using Cookies:
+// components/fragments/PropertyCard.tsx (Example)
+'use client';
+
+import { setCookie, getCookie } from 'cookies-next';
+import { useCookieConsent } from '@/hooks/useCookieConsent'; // Adjust path
+import { toast } from 'react-toastify'; // Example for showing notifications
+
+const PropertyCard = ({ property }) => {
+  const { hasConsented } = useCookieConsent();
+
+  const handleBookmarkClick = (propertyId: string) => {
+    // Only proceed if the user has consented to functional cookies
+    if (hasConsented === false) {
+      toast.info("Please accept cookies to save your favorite properties.");
+      return;
+    }
+
+    // Get existing favorites, or initialize an empty array
+    const favoritesCookie = getCookie('lpc-favorites');
+    let favorites: string[] = favoritesCookie ? JSON.parse(favoritesCookie) : [];
+
+    if (favorites.includes(propertyId)) {
+      // Remove from favorites
+      favorites = favorites.filter(id => id !== propertyId);
+      toast.success("Removed from favorites!");
+    } else {
+      // Add to favorites
+      favorites.push(propertyId);
+      toast.success("Added to favorites!");
+    }
+
+    // Save the updated array back to the cookie
+    setCookie('lpc-favorites', JSON.stringify(favorites), {
+      maxAge: 60 * 60 * 24 * 365,
+    });
+
+    // You might want to trigger a state update here to re-render the icon
+  };
+
+  return (
+    // ... your card JSX
+    <button onClick={() => handleBookmarkClick(property._id)}>
+      {/* Bookmark Icon */}
+    </button>
+    // ...
+  );
+};

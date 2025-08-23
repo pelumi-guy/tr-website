@@ -1,10 +1,13 @@
 // components/home/HeroSection.tsx (Previously PropertyShowcaseCarousel.tsx)
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image, { StaticImageData } from 'next/image';
+import { useRouter } from 'next/navigation';
 import { images } from '@/exports/images';
 import Carousel from 'react-bootstrap/Carousel';
 import HeroSearchPanel from './HeroSearchPanel'; // <-- Import the new component
+import { ListingType } from '@/types/common';
 
 // Simplify the data structure - we only need background images now
 const backgroundImages: { id: number; src: StaticImageData | string; alt: string }[] = [
@@ -14,6 +17,34 @@ const backgroundImages: { id: number; src: StaticImageData | string; alt: string
 ];
 
 const HeroSection = () => {
+    const router = useRouter();
+
+    // State for the form inputs
+    const [activeTab, setActiveTab] = useState<ListingType>('sale');
+    const [location, setLocation] = useState('');
+    const [propertyType, setPropertyType] = useState('');
+    const [bedrooms, setBedrooms] = useState('');
+    const [price, setPrice] = useState({ min: '', max: '' });
+
+
+    useEffect(() => {}, [activeTab, location, propertyType, bedrooms]);
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // Construct the query parameters for the search page
+        const params = new URLSearchParams();
+        params.set('listingType', activeTab);
+        if (location) params.set('location', location);
+        if (propertyType) params.set('propertyType', propertyType);
+        if (bedrooms) params.set('bedrooms', bedrooms);
+        // if (price.min) params.set('price[gte]', price.min);
+        // if (price.max) params.set('price[lte]', price.max);
+
+        // Navigate to the search page with the constructed query
+        router.push(`/search?search=${location}&${params.toString()}`);
+    };
+
     return (
         <div
             className="position-relative hero-section-wrapper" // Added a class for easier targeting
@@ -26,7 +57,7 @@ const HeroSection = () => {
                 fade
                 controls={false}
                 indicators={false} // Hide indicators for a clean background look
-                interval={4000}
+                interval={500}
                 className="property-showcase-carousel"
             >
                 {backgroundImages.map((image, index) => (
@@ -48,7 +79,18 @@ const HeroSection = () => {
                           We render the same panel on every slide for a persistent feel.
                         */}
                         <Carousel.Caption className="d-flex flex-column justify-content-center align-items-center h-100 carousel-caption-with-search">
-                            <HeroSearchPanel />
+                            <HeroSearchPanel
+                                activeTab={activeTab}
+                                setActiveTab={setActiveTab}
+                                location={location}
+                                setLocation={setLocation}
+                                propertyType={propertyType}
+                                setPropertyType={setPropertyType}
+                                bedrooms={bedrooms}
+                                setBedrooms={setBedrooms}
+                                handleSearch={handleSearch}
+                                key={'same'}
+                            />
                         </Carousel.Caption>
                     </Carousel.Item>
                 ))}

@@ -122,7 +122,7 @@ const AISearchPageClientWrapper: React.FC<AISearchPageClientWrapperProps> = ({
 
       <hgroup className="section-heading">
         <h2>Describe Your Dream Home, Let AI Find It</h2>
-        <p>Use our intelligent search to describe the features that matter most to you.</p>
+        <p>Use our intelligent search to find your dream property by describing the features that matter most to you.</p>
       </hgroup>
 
       <Search classNames='landing-main-search rounded-pill mt-4' darkButton aiSearch />

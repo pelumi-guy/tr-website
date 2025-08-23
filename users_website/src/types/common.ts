@@ -26,3 +26,11 @@ export interface Property {
     imageUrl: string;
     quote: string;
   }
+
+
+  export type ListingType = 'rent' | 'sale' | 'shortlet';
+
+  interface PriceRange {
+    min: string;
+    max: string;
+  }

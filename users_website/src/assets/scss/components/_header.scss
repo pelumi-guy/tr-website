@@ -9,7 +9,7 @@
                 padding-bottom: 0.5rem; // Add some space for the underline effect
                 // --- Underline Styling (hidden by default) ---
                 &::after {
-                    content: '';
+                    content: "";
                     position: absolute;
                     bottom: 0;
                     left: 50%; // Start in the middle
@@ -35,6 +35,7 @@
                     color: $primary;
                     font-weight: 700; // Make the active link bolder
                     // Make the underline permanently visible for the active link
+                    border-bottom: 1px solid black;
                     &::after {
                         width: 100%;
                     }
@@ -50,6 +51,11 @@
             padding: $spacer;
             margin-top: $spacer * 0.5;
             box-shadow: 0 4px 12px rgba($black, 0.1);
+        }
+        .nav-link {
+            &.active {
+                border-bottom: 0px !important;
+            }
         }
     }
 }

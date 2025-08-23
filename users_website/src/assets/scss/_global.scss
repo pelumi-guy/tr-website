@@ -12,6 +12,12 @@
     color: $muted;
 }
 
+.footer-item:hover {
+    border-bottom: 1px solid $black !important;
+    color: $black;
+    font-weight: 500;
+}
+
 @include media-breakpoint-down(sm) {
     .section-heading {
         h2 {

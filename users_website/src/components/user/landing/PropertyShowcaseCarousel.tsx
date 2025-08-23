@@ -59,7 +59,7 @@ const PropertyShowcaseCarousel = ({ slides = slidesData }) => {
                 fade // Replaces className="carousel-fade"
                 controls={false} // Hides next/prev arrows, as in your original commented-out code
                 indicators={true} // Shows the dots at the bottom
-                interval={5000} // Set a slide interval in milliseconds
+                interval={1000} // Set a slide interval in milliseconds
                 className="property-showcase-carousel" // Keep your custom class for styling
             >
                 {/* Map over your data to create Carousel.Item for each slide */}
